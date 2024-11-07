@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Revista } from '../entities/Revista';
 import { Observable } from 'rxjs';
 import { RestConstants } from '../app/rest-constants';
+import { Anuncio } from '../entities/Anuncio';
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +27,18 @@ export class ReportesAdminService {
   }
 
   public obtenerComentarios(nombreUsuario : string): Observable<Revista[]> {
-    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerSuscripciones/' + nombreUsuario );
+    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerComentarios/' + nombreUsuario );
   }
 
   public obtenerRecurrenciasComentarios(nombreUsuario : string, fechaInicio : string, fechaFin : string): Observable<Revista[]> {
-    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerSuscripciones/recurrencias/' + nombreUsuario 
+    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerComentarios/recurrencias/' + nombreUsuario 
     + "/" + fechaInicio + "/" + fechaFin);
   }
+
+  public obtenerAnuncios(nombreUsuario : string): Observable<Anuncio[]> {
+    return this.httpClient.get<Anuncio[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerSuscripciones/' + nombreUsuario );
+  }
+
+
 
 }

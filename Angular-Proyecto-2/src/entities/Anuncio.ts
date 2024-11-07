@@ -9,6 +9,7 @@ export interface Anuncio {
     fechaFin: Date,
     nombreUsuario: string,
     idAnuncio: number,
+    idAnuncioString: string,
     costoAnuncio: number;
     costoOcultacion: number
     

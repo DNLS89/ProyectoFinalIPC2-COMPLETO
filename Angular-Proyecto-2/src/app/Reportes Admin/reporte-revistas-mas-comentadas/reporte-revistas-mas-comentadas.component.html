@@ -1,5 +1,5 @@
 <br>
-    <h3>Filtrar Revistas Más Populares</h3>
+    <h3>Filtrar Revistas Más Comentadas</h3>
 
     <form required>
         <p><label>Fecha Inicio: </label>
@@ -16,42 +16,46 @@
     <br>
     <br>
 
-    <h2>Total de suscripciones Generales {{suscripcionesList.length}}</h2>
+    <h2>Total de Comentarios Generales {{suscripcionesList.length}}</h2>
     <br>
     <br>
-    <h2>Revistas Más Populares: </h2>
+    <h2>Revistas Más Comentadas: </h2>
     <br>
     @for (ocurrencia of recurrenciaList; ; track $index) {
-        <h4>Revista "{{ocurrencia.numeroRevista}}" con "{{ocurrencia.occurrences}}" suscripciones</h4>
+        <h4>Revista "{{ocurrencia.numeroRevista}}" con "{{ocurrencia.occurrences}}" comentarios</h4>
         <br>
     }
     <br>
     <br>
 
-    <h2>Listado Suscripciones Específicas: </h2>
+    <h2>Listado Comentarios Específicos: </h2>
     <br>
-    <div class="card">
-        <div class="card-body">
+    
 
             @for (ocurrencia of recurrenciaList; ; track $index) {
-                <h4>Revista suscrita: {{ocurrencia.numeroRevista}}</h4>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Revista comentada: {{ocurrencia.numeroRevista}}</h4>
                 @for (meGusta of meGustasFiltradasList; track $index) {
-
+                    
                     @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
-                        <br>
-                        <!-- <h4>Revista suscrita: {{meGusta.numeroRevista}}</h4> -->
-                        <p>Fecha: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}</p>
-                        <p>Usuario que se suscribió: {{meGusta.usuarioQueDioMeGusta}}</p>
-                    }   
+                            <br>
+                            <!-- <h4>Revista suscrita: {{meGusta.numeroRevista}}</h4> -->
+                            <p>Fecha: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}</p>
+                            <p>Usuario que se comentó: {{meGusta.usuarioQueDioMeGusta}}</p>
+                            <p>Comentario: {{meGusta.comentario}}</p>
+                    } 
+                      
                 }
+                    </div>
+                </div>
                 <br>
                 <br>
     
             }
 
 
-        </div>
-    </div>
+        
     
     <br>
     <br>

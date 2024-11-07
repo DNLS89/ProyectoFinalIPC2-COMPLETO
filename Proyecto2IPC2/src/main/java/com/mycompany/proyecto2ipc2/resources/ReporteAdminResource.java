@@ -71,4 +71,59 @@ public class ReporteAdminResource {
         
     }
     
+    //OBTENER SUSCRIPCIONES
+    @GET
+    @Path("/extraerComentarios/{nombreUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerComentarios(@PathParam("nombreUsuario") String nombreUsuario) {
+        
+        
+        System.out.println("Extrayendo COMENTARIOS");
+        MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
+        GestorReportes gestorReportes = motorPrograma.getGestorReportes();
+        
+        
+        ArrayList<Revista> revistasConComentarios = gestorReportes.extraerComentariosReporteAdmin(nombreUsuario);
+        
+        if (revistasConComentarios != null) {
+            //System.out.println("Hay revistas");
+            motorPrograma.closeConnection();
+            return Response.ok(revistasConComentarios).build();
+        }
+        
+        motorPrograma.closeConnection();
+        return Response.status(Response.Status.NOT_FOUND).build();
+        
+    }
+    
+    //OBTENER Recurrencia Suscripciones
+    @GET
+    @Path("/extraerComentarios/recurrencias/{nombreUsuario}/{fechaInicio}/{fechaFin}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerRecurrenciasComentarios(@PathParam("nombreUsuario") String nombreUsuario, @PathParam("fechaInicio") String fechaInicio,
+            @PathParam("fechaFin") String fechaFin) {
+        
+        System.out.println("Extrayendo RECURRENCIAS COMENTARIOS");
+        
+        System.out.println("PRUEBA VALORES INDEFINIDOS: fechaINi: " + fechaInicio + " fechafin:" + fechaFin);
+        
+        
+        MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
+        GestorReportes gestorReportes = motorPrograma.getGestorReportes();
+        
+        
+        ArrayList<Revista> revistasConComentarios = gestorReportes.
+                extraerRecurrenciaComentariosReporteAdmin(nombreUsuario, fechaInicio, fechaFin, motorPrograma);
+        
+        if (revistasConComentarios != null) {
+            //System.out.println("Hay revistas");
+            motorPrograma.closeConnection();
+            return Response.ok(revistasConComentarios).build();
+        }
+        
+        motorPrograma.closeConnection();
+        return Response.status(Response.Status.NOT_FOUND).build();
+        
+    }
+    
 }

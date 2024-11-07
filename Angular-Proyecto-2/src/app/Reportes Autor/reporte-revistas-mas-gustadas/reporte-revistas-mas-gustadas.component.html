@@ -24,10 +24,11 @@
 
     <h2>Descripción Revistas con más "Me Gustas": </h2>
     
-    <div class="card">
-        <div class="card-body">
+    
 
             @for (ocurrencia of recurrenciaList; ; track $index) {
+                <div class="card">
+                    <div class="card-body">
                 <h4>Revista reaccionada: {{ocurrencia.numeroRevista}}</h4>
                 @for (meGusta of meGustasFiltradasList; track $index) {
 
@@ -38,14 +39,15 @@
                         <p>Usuario que dió Me Gusta: {{meGusta.usuarioQueDioMeGusta}}</p>
                     }   
                 }
+                    </div>
+                </div>
                 <br>
                 <br>
     
             }
 
 
-        </div>
-    </div>
+        
     
     <br>
     <br>

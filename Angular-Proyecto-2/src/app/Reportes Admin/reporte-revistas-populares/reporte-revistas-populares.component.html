@@ -30,10 +30,11 @@
 
     <h2>Listado Suscripciones Específicas: </h2>
     <br>
-    <div class="card">
-        <div class="card-body">
+    
 
             @for (ocurrencia of recurrenciaList; ; track $index) {
+                <div class="card">
+                    <div class="card-body">
                 <h4>Revista suscrita: {{ocurrencia.numeroRevista}}</h4>
                 @for (meGusta of meGustasFiltradasList; track $index) {
 
@@ -44,14 +45,15 @@
                         <p>Usuario que se suscribió: {{meGusta.usuarioQueDioMeGusta}}</p>
                     }   
                 }
+                    </div>
+                </div>
                 <br>
                 <br>
     
             }
 
 
-        </div>
-    </div>
+        
     
     <br>
     <br>
