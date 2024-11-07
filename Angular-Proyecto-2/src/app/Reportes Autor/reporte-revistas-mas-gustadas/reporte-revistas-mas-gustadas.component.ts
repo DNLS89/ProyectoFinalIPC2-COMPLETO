@@ -46,6 +46,11 @@ export class ReporteRevistasMasGustadasComponent {
     /* console.log("Valores")
     console.log("fehcaini: " + this._fechaInicio + " fehcafin" + this._fechaFin) */
 
+    if (this._fechaInicio == "" && this._fechaFin == "") {
+      this._fechaInicio = "undefined";
+      this._fechaFin = "undefined";
+    }
+
     this.reportesAutorService
     .obtenerRecurrenciasRevistasConMeGustas(localStorage.getItem("nombreUsuario")!, this._fechaInicio, this._fechaFin)
     .subscribe({

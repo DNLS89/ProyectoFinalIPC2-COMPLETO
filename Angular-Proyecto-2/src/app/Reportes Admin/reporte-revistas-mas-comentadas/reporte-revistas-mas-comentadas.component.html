@@ -1,1 +1,58 @@
-<p>reporte-revistas-mas-comentadas works!</p>
+<br>
+    <h3>Filtrar Revistas Más Populares</h3>
+
+    <form required>
+        <p><label>Fecha Inicio: </label>
+        </p>
+        <input [(ngModel)]="_fechaInicio" class="form-control" type="date" name="fechaInicio" required>
+        <p><label>Fecha Final: </label>
+        </p>
+        <input [(ngModel)]="_fechaFin" class="form-control" type="date" name="fechaFin" required>
+        <br>
+        
+        <button class="btn btn-success" type="button" (click)="obtenerRecurrencia()" >Filtrar</button>
+    </form>
+
+    <br>
+    <br>
+
+    <h2>Total de suscripciones Generales {{suscripcionesList.length}}</h2>
+    <br>
+    <br>
+    <h2>Revistas Más Populares: </h2>
+    <br>
+    @for (ocurrencia of recurrenciaList; ; track $index) {
+        <h4>Revista "{{ocurrencia.numeroRevista}}" con "{{ocurrencia.occurrences}}" suscripciones</h4>
+        <br>
+    }
+    <br>
+    <br>
+
+    <h2>Listado Suscripciones Específicas: </h2>
+    <br>
+    <div class="card">
+        <div class="card-body">
+
+            @for (ocurrencia of recurrenciaList; ; track $index) {
+                <h4>Revista suscrita: {{ocurrencia.numeroRevista}}</h4>
+                @for (meGusta of meGustasFiltradasList; track $index) {
+
+                    @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
+                        <br>
+                        <!-- <h4>Revista suscrita: {{meGusta.numeroRevista}}</h4> -->
+                        <p>Fecha: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}</p>
+                        <p>Usuario que se suscribió: {{meGusta.usuarioQueDioMeGusta}}</p>
+                    }   
+                }
+                <br>
+                <br>
+    
+            }
+
+
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <button class="btn btn-success" onclick="location.href='report1'"> Generar Reporte </button>

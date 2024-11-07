@@ -11,6 +11,7 @@ Proceso/Reaccion.class
 com/mycompany/proyecto2ipc2/resources/VerPerfilResource.class
 com/mycompany/proyecto2ipc2/JakartaRestConfiguration.class
 Proceso/Publicacion.class
+com/mycompany/proyecto2ipc2/resources/ReporteAdminResource.class
 com/mycompany/proyecto2ipc2/resources/CrearCuentaResource.class
 com/mycompany/proyecto2ipc2/resources/ReporteAutorResource.class
 Usuarios/Editor.class

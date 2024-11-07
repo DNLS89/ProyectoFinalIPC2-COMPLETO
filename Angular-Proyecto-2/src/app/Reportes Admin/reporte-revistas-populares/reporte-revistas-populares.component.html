@@ -1,5 +1,5 @@
 <br>
-    <h3>Filtrar Me Gustas</h3>
+    <h3>Filtrar Revistas Más Populares</h3>
 
     <form required>
         <p><label>Fecha Inicio: </label>
@@ -16,21 +16,36 @@
     <br>
     <br>
 
-    <h2>Me Gustas Hechos a sus Revistas: </h2>
-    
+    <h2>Total de suscripciones Generales {{suscripcionesList.length}}</h2>
+    <br>
+    <br>
+    <h2>Revistas Más Populares: </h2>
+    <br>
+    @for (ocurrencia of recurrenciaList; ; track $index) {
+        <h4>Revista "{{ocurrencia.numeroRevista}}" con "{{ocurrencia.occurrences}}" suscripciones</h4>
+        <br>
+    }
+    <br>
+    <br>
+
+    <h2>Listado Suscripciones Específicas: </h2>
+    <br>
     <div class="card">
         <div class="card-body">
 
             @for (ocurrencia of recurrenciaList; ; track $index) {
+                <h4>Revista suscrita: {{ocurrencia.numeroRevista}}</h4>
                 @for (meGusta of meGustasFiltradasList; track $index) {
 
                     @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
                         <br>
-                        <h4>Revista reaccionada: {{meGusta.numeroRevista}}</h4>
+                        <!-- <h4>Revista suscrita: {{meGusta.numeroRevista}}</h4> -->
                         <p>Fecha: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}</p>
-                        <p>Usuario que dió Me Gusta: {{meGusta.usuarioQueDioMeGusta}}</p>
+                        <p>Usuario que se suscribió: {{meGusta.usuarioQueDioMeGusta}}</p>
                     }   
                 }
+                <br>
+                <br>
     
             }
 

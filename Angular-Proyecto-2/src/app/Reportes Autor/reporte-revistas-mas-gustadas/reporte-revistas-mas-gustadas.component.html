@@ -15,22 +15,31 @@
 
     <br>
     <br>
+    @for (ocurrencia of recurrenciaList; ; track $index) {
+        <h4>Revista "{{ocurrencia.numeroRevista}}" con "{{ocurrencia.occurrences}}" ME GUSTAS</h4>
+        <br>
+    }
+    <br>
+    <br>
 
-    <h2>Me Gustas Hechos a sus Revistas: </h2>
+    <h2>Descripción Revistas con más "Me Gustas": </h2>
     
     <div class="card">
         <div class="card-body">
 
             @for (ocurrencia of recurrenciaList; ; track $index) {
+                <h4>Revista reaccionada: {{ocurrencia.numeroRevista}}</h4>
                 @for (meGusta of meGustasFiltradasList; track $index) {
 
                     @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
                         <br>
-                        <h4>Revista reaccionada: {{meGusta.numeroRevista}}</h4>
+                        <!-- <h4>Revista reaccionada: {{meGusta.numeroRevista}}</h4> -->
                         <p>Fecha: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}</p>
                         <p>Usuario que dió Me Gusta: {{meGusta.usuarioQueDioMeGusta}}</p>
                     }   
                 }
+                <br>
+                <br>
     
             }
 

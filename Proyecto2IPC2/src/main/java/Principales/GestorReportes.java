@@ -394,6 +394,119 @@ public class GestorReportes {
         return null;
     }
 
+    public ArrayList<Revista> extraerSuscripcionesReporteAdmin(String nombrePublicador) {
+        String comandoRevistasSuscritas = "SELECT s.*, p.nombre_usuario FROM suscribir s JOIN publicar p ON s.numero_revista = p.numero_revista ORDER BY numero_revista;";
+        ArrayList<Revista> meGustas = new ArrayList<>();
+        
+        try {
+
+            PreparedStatement comando = connection.prepareStatement(comandoRevistasSuscritas);
+            //comando.setString(1, nombrePublicador);
+            ResultSet resultSet = comando.executeQuery();
+
+
+            while (resultSet.next()) {
+                int numeroRevista = resultSet.getInt("numero_revista");
+                
+                
+                Revista revista = new Revista(numeroRevista);
+
+                String usuarioQueDioMeGusta = resultSet.getString("nombre_usuario");
+                revista.setUsuarioQueDioMeGusta(usuarioQueDioMeGusta);
+                
+                String numeroRevistaString = resultSet.getString("numero_revista");
+                revista.setNumeroRevistaString(numeroRevistaString);
+
+                
+                Date fechaProceso = resultSet.getDate("fecha_creacion");
+                revista.setFechaProceso(fechaProceso);
+
+                meGustas.add(revista);
+                //String nombreAutor = resultSet.getString("nombre_usuario");
+            }
+            resultSet.close();
+            comando.close();
+
+            return meGustas;
+
+        } catch (SQLException e) {
+            System.out.println("Error al extraer suscripciones");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    public ArrayList<Revista> extraerRecurrenciaSuscripcionesReporteAdmin(String nombrePublicador, String fechaInicio, String fechaFin, MotorPrograma motorPrograma) {
+        
+        ArrayList<Revista> meGustasOcurrencias = new ArrayList<>();
+        
+        String comandoOcurrencias = "";
+        
+        //El proceso es para saber que datos meter en el Prepared Statement
+        int proceso = -1;
+        
+        if ((fechaInicio.equals("undefined") && fechaFin.equals("undefined"))) {
+            //No filtra por fecha
+            proceso = 1;
+            comandoOcurrencias = "select numero_revista, count(*) AS occurrences FROM suscribir GROUP BY numero_revista ORDER BY occurrences DESC LIMIT 5;";
+            
+        } else if (!(fechaInicio.equals("undefined") || fechaFin.equals("undefined"))) {
+            //Filtra solo por fechas
+            proceso = 2;
+            comandoOcurrencias = "SELECT numero_revista, COUNT(*) AS occurrences FROM suscribir WHERE fecha_creacion BETWEEN ? AND ? "
+                    + "GROUP BY numero_revista ORDER BY occurrences DESC LIMIT 5;";
+            
+        } else {
+            return null;
+        }
+        
+        System.out.println("PROCESO : " + proceso);
+        
+        try {
+
+            PreparedStatement comando = connection.prepareStatement(comandoOcurrencias);
+            
+            switch (proceso) {
+                case 2:
+                    comando.setDate(1, motorPrograma.formatoFechaAdecuado(fechaInicio));
+                    comando.setDate(2, motorPrograma.formatoFechaAdecuado(fechaFin));
+                    break;
+                default:
+                    break;
+            }
+            
+            ResultSet resultSet = comando.executeQuery();
+
+
+            while (resultSet.next()) {
+                int numeroRevista = resultSet.getInt("numero_revista");
+                
+                
+                Revista revista = new Revista(numeroRevista);
+                
+                String numeroRevistaString = resultSet.getString("numero_revista");
+                revista.setNumeroRevistaString(numeroRevistaString);
+
+                int ocurrencias = resultSet.getInt("occurrences");
+                revista.setOccurrences(ocurrencias);
+
+                meGustasOcurrencias.add(revista);
+                //String nombreAutor = resultSet.getString("nombre_usuario");
+            }
+            resultSet.close();
+            comando.close();
+
+            return meGustasOcurrencias;
+
+        } catch (SQLException e) {
+            System.out.println("Error al extraer ocurrencias me gustas");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
     public void compilarReporteComentario(HttpServletRequest request) {
 
         String comando = "select * FROM comentar;";

@@ -120,7 +120,7 @@ public class ReporteAutorResource {
         
     }
     
-    //OBTENER REVISTAS CON ME GUSTAS
+    //OBTENER Recurrencia REVISTAS CON ME GUSTAS
     @GET
     @Path("/extraerMeGustas/recurrencias/{nombreUsuario}/{fechaInicio}/{fechaFin}")
     @Produces(MediaType.APPLICATION_JSON)

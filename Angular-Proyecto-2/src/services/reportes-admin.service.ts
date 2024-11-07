@@ -17,11 +17,20 @@ export class ReportesAdminService {
 
 
   public obtenerSuscripciones(nombreUsuario : string): Observable<Revista[]> {
-    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAutor/extraerMeGustas/' + nombreUsuario );
+    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerSuscripciones/' + nombreUsuario );
   }
 
   public obtenerRecurrenciasSuscripciones(nombreUsuario : string, fechaInicio : string, fechaFin : string): Observable<Revista[]> {
-    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAutor/extraerMeGustas/recurrencias/' + nombreUsuario 
+    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerSuscripciones/recurrencias/' + nombreUsuario 
+    + "/" + fechaInicio + "/" + fechaFin);
+  }
+
+  public obtenerComentarios(nombreUsuario : string): Observable<Revista[]> {
+    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerSuscripciones/' + nombreUsuario );
+  }
+
+  public obtenerRecurrenciasComentarios(nombreUsuario : string, fechaInicio : string, fechaFin : string): Observable<Revista[]> {
+    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerSuscripciones/recurrencias/' + nombreUsuario 
     + "/" + fechaInicio + "/" + fechaFin);
   }
 

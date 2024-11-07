@@ -46,7 +46,13 @@ export class ReporteRevistasPopularesComponent {
 
     /* console.log("Valores")
     console.log("fehcaini: " + this._fechaInicio + " fehcafin" + this._fechaFin) */
-
+    if (this._fechaInicio == "" && this._fechaFin == "") {
+      this._fechaInicio = "undefined";
+      this._fechaFin = "undefined";
+    }
+    /* console.log("Valores DESPUES")
+    console.log("fehcaini: " + this._fechaInicio + " fehcafin" + this._fechaFin) */
+   
     this.reportesAdminService
     .obtenerRecurrenciasSuscripciones(localStorage.getItem("nombreUsuario")!, this._fechaInicio, this._fechaFin)
     .subscribe({
@@ -66,6 +72,7 @@ export class ReporteRevistasPopularesComponent {
         console.log(error);
       }
     });
+    
   }
 
 
@@ -90,9 +97,16 @@ export class ReporteRevistasPopularesComponent {
     filterRevistas() {
       if (this.suscripcionesList.length === 0 || (this._fechaInicio === "undefined" && this._fechaFin === "undefined")) {
         //No filtra
+        console.log("PRUEBA 1")
         return this.suscripcionesList;
   
+      } else if (this._fechaInicio == "" && this._fechaFin == "") {
+        console.log("PRUEBA 2")
+        console.log(this.suscripcionesList);
+        return this.suscripcionesList;
+        
       } else if (this._fechaInicio != "undefined" && this._fechaFin != "undefined") {
+        console.log("PRUEBA 3")
         return this.suscripcionesList.filter((revista) =>
           {
             //FILTRA SOLO EN BASE A LAS FECHAS
@@ -104,18 +118,16 @@ export class ReporteRevistasPopularesComponent {
             return fecha >= fechaInicio && fecha <= fechaFin;
           })
       } else {
+        console.log("PRUEBA 4")
         //Filtra en BASE A FECHAS Y NUMERO DE REVISTA
         return this.suscripcionesList.filter((revista) =>
         {
           //Cuando no cumple con ningún elemento
-
           return this.suscripcionesList;
             /* return revista.categoria === this._filteredNumeroRevista && revista.tagsString === this._filteredTags; */
         })
       }
 
-
-      
     }
 
 
