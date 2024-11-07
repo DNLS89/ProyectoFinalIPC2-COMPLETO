@@ -1,0 +1,85 @@
+create schema GESTOR_REVISTAS;
+use GESTOR_REVISTAS;
+
+                                          IDENTIDAD USUARIO
+create table usuario (
+nombre_usuario varchar(30) not null,
+contraseña varchar(40) not null,
+rol varchar(15) not null,
+cartera DECIMAL(10,2) DEFAULT "0.00",
+foto varchar(30),
+hobbies varchar(100),
+descripcion varchar(200),
+gustos varchar(100),   
+CONSTRAINT PK_USUARIO PRIMARY KEY(nombre_usuario));
+
+                                           IDENTIDAD REVISTA
+create table revista (
+numero_revista int not null auto_increment,
+costo_suscripcion int DEFAULT "0.00",
+estado_suscripcion int not null DEFAULT "1",
+estado_comentarios int not null DEFAULT "1",
+estado_megustas int not null DEFAULT "1",
+descripcion varchar(150) not null,
+me_gustas int DEFAULT "0",
+categoria varchar(20) not null,
+etiquetas varchar(40) not null,
+constraint Pk_TARJETA primary key(numero_revista));
+
+                                               RELACION Publicar
+create table publicar (
+nombre_usuario varchar(30) not null,
+numero_revista int not null,
+fecha_creacion date,
+CONSTRAINT FK_USUARIO1_IN_NOMBRE_USUARIO FOREIGN KEY (nombre_usuario) REFERENCES usuario(nombre_usuario),
+CONSTRAINT FK_REVISTA1_IN_NUMERO_REVISTA
+FOREIGN KEY (numero_revista) REFERENCES revista(numero_revista));
+
+                                               RELACION Suscribir
+create table suscribir (
+nombre_usuario varchar(30) not null,
+numero_revista int not null,
+fecha_suscripcion date,
+CONSTRAINT FK_USUARIO2_IN_NOMBRE_USUARIO FOREIGN KEY (nombre_usuario) REFERENCES usuario(nombre_usuario),
+CONSTRAINT FK_REVISTA2_IN_NUMERO_REVISTA
+FOREIGN KEY (numero_revista) REFERENCES revista(numero_revista));
+
+                                               RELACION Comentar
+create table comentar (
+nombre_usuario varchar(30) not null,
+numero_revista int not null,
+comentario varchar(150) not null,
+fecha_creacion date,
+CONSTRAINT FK_USUARIO3_IN_NOMBRE_USUARIO FOREIGN KEY (nombre_usuario) REFERENCES usuario(nombre_usuario),
+CONSTRAINT FK_REVISTA3_IN_NUMERO_REVISTA
+FOREIGN KEY (numero_revista) REFERENCES revista(numero_revista));
+
+                                               RELACION Dar me gusta
+create table megusta (
+nombre_usuario varchar(30) not null,
+numero_revista int not null,
+fecha_creacion date,
+CONSTRAINT FK_USUARIO5_IN_NOMBRE_USUARIO FOREIGN KEY (nombre_usuario) REFERENCES usuario(nombre_usuario),
+CONSTRAINT FK_REVISTA5_IN_NUMERO_REVISTA
+FOREIGN KEY (numero_revista) REFERENCES revista(numero_revista));
+
+                                               RELACION Anunciar
+create table anunciar1 (
+nombre_usuario varchar(30) not null,
+id_anuncio int not null,
+estado_anuncio_comprado int DEFAULT "1",
+caducado int not null DEFAULT "0",
+fecha_creacion date,
+fecha_fin date,
+CONSTRAINT FK_ANUNCIO6_IN_ID_ANUNCIO FOREIGN KEY (id_anuncio) REFERENCES anuncio(id_anuncio),
+CONSTRAINT FK_USUARIO6_IN_NOMBRE_USUARIO FOREIGN KEY (nombre_usuario) REFERENCES usuario(nombre_usuario));
+
+						IDENTIDAD Anuncio
+create table anuncio (
+id_anuncio int not null auto_increment, 
+tipo_anuncio varchar(20) not null,
+estado_anuncio int DEFAULT "1",
+vigencia_anuncio int null,
+costo_anuncio DECIMAL(10,2) DEFAULT "0.00",
+costo_ocultacion DECIMAL(10,2) DEFAULT "0.00",
+CONSTRAINT PK_ANUNCIO PRIMARY KEY(id_anuncio));

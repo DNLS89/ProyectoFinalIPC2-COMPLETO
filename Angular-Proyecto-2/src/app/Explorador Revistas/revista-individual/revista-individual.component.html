@@ -1,0 +1,29 @@
+
+    <h1>REVISTA {{ revista.numeroRevista }}</h1>
+    <br />
+
+    <button class="btn btn-success" (click)="booleanMostrarPrevisualizacion()">
+      Previsualizar Revista
+    </button>
+    <div *ngIf="mostrarPrevisualizacion">
+        <br>
+      <p><b>Descripción:</b> {{ revista.descripcion }}</p>
+      <p><b>Categoría:</b> {{ revista.categoria }}</p>
+      <p><b>Etiquetas:</b> {{ revista.tagsString }}</p>
+      <p><b>Me gustas:</b> {{ revista.meGustas }}</p>
+      <p>
+        <b>Perfil Autor: </b>
+        <button class="btn btn-success" (click)="booleanMostrarPerfil()">
+          "{{ revista.nombreAutor }}"
+        </button>
+      </p>
+
+      <div *ngIf="mostrarPerfilAutor">
+        <app-perfil-autor [autor]="autor"></app-perfil-autor>
+      </div>
+    </div>
+
+    <br />
+    <br />
+    
+

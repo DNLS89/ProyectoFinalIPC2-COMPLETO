@@ -1,0 +1,18 @@
+<main>
+    <section class="section">
+        <div class="container">
+
+            
+            <br>
+            <br>
+            <h1>EXPLORAR REVISTAS PUBLICADAS</h1>
+            <br>
+
+            <!--<app-filtrador-revistas></app-filtrador-revistas>-->
+            @for (revista of revistasPublicadasList; track $index) {
+            <app-revista-individual [revista]="revista"></app-revista-individual>
+            <app-bloquear-gestiones [revista]="revista"></app-bloquear-gestiones>
+            }
+        </div>
+    </section>
+</main>

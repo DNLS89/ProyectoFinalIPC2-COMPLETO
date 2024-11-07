@@ -1,0 +1,26 @@
+<h1>TIENDA de CRÉDITOS</h1>
+<br />
+<h4>Usted tiene "{{this.creditosCuenta}}" créditos disponibles</h4>
+<br />
+
+<div *ngIf="mensaje !== undefined">
+    <h3 style="color:red;">
+        {{this.mensaje}}
+    </h3>
+</div>
+
+<h2>Comprar créditos:</h2>
+<br />
+<h4>Ingrese un valor de créditos por comprar y su número de tarjeta</h4>
+<form action="" method="POST" required>
+  <p>
+    <label>Cantidad de créditos por comprar: </label> <input class="form-control" type="number" name="creditosPorComprar" [(ngModel)]="creditosPorComprar" min="1">
+  </p>
+  <p>
+    <label>No. de Tarjeta: </label> <input class="form-control" type="number" name="numeroTarjeta" min="0" required>
+  </p>
+  <button (click)="comprarCreditos()" class="btn btn-success" type="submit">Comprar Créditos</button>
+</form>
+
+<br />
+<br />

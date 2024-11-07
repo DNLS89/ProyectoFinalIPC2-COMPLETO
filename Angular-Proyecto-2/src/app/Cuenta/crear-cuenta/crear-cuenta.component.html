@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Crear Cuenta</title>
+</head>
+<body>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <br>
+                <br>
+                <a  href="/login" routerLink="/login" routerLinkActive="active" aria-current="page">Regresar al Log In</a>
+                <br>
+                <br>
+
+                <h2>Ingrese sus datos para Crear una Cuenta</h2>
+                <div *ngIf="mensaje !== undefined">
+                    <h3 style="color:red;">
+                        USUARIO INGRESADO YA SE ENCUENTRA EN USO
+                    </h3>
+                </div>
+
+
+                <form action="" method="POST" required>
+                    <div class="form-group">
+                        <p><label>Nombre Usuario: * </label> <input class="form-control" type="text" name="nombre_usuario" [(ngModel)]="nombreUsuario" required></p>
+                    </div>
+                    <div class="form-group">
+                        <p><label>Contraseña: * </label> <input class="form-control" type="text" name="contraseña" [(ngModel)]="contrasena"  required></p>
+                    </div>
+                    <div class="form-group">
+                        <p><label>Rol: *</label>
+                            <select #roles (change)="onSelected(roles.value)" class="form-control" id="select" name="rol">
+                                <option value="USUARIO" default>Suscriptor</option>
+                                <option value="ADMIN">Administrador</option>
+                                <option value="AUTOR">Editor/Autor</option>
+                                <option value="ANUNCIADOR">Anunciador</option>
+                            </select>
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <p><label>Foto: </label> <input class="form-control" type="file" name="foto" [(ngModel)]="foto"></p>
+                    </div>
+                    <div class="form-group">
+                        <p><label>Hobbies: </label> <input class="form-control" type="text" name="hobbies" [(ngModel)]="hobbies"></p>
+                    </div>
+                    <div class="form-group">
+                        <p><label>Descripción: </label> <input class="form-control" type="text" name="descripcion" [(ngModel)]="descripcion"></p>
+                    </div>
+                    <div class="form-group">
+                        <p><label>Gustos: </label> <input class="form-control" type="text" name="gustos" [(ngModel)]="gustos"></p>
+                    </div>
+                    <br>
+                    <button (click)="crearCuenta()" class="btn btn-success" type="submit">Ingresar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+ 
+</body>
+</html>
+
+<app-footer></app-footer>

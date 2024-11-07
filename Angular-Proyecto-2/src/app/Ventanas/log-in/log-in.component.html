@@ -1,0 +1,42 @@
+<html>    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        
+    </head>
+    <body>
+        <main>
+            <section class="section">
+                <div class="container">
+                    <br>
+                    <h1>Inicio de Sesión</h1>
+                    <br>
+
+                    <div *ngIf="mensaje !== undefined">
+                    <h3 style="color:red;">
+                        CREDENCIALES INCORRECTAS
+                    </h3>
+                    </div>
+
+                    <h3>Ingrese el nombre y contraseña de su cuenta o cree una nueva</h3>
+
+
+                    <form required>
+                        <p><label>Nombre Usuario: </label> <input class="form-control" type="text" name="nombre_usuario" [(ngModel)]="user" required></p>
+                        <p><label>Contraseña: </label> <input class="form-control" type="password" name="contraseña" [(ngModel)]="password"  ></p>
+                        <br>
+                        <button (click)="myFunc()" type="submit" class="btn btn-success">Ingresar</button>
+                    </form>
+                    <br>
+                    <a href="/crearCuenta" routerLinkActive="active" ariaCurrentWhenActive="page">Crear Cuenta Nueva</a>
+                </div>
+            </section>
+        </main>
+
+        
+    </body>
+</html>
+
+
+
+

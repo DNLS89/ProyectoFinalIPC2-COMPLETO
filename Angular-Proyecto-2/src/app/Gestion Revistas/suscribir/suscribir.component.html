@@ -1,0 +1,26 @@
+<form action="" method="POST" required>
+
+    <div *ngIf="isVisible">
+    <p>
+        
+      <label>SUSCRIBIRSE: </label>
+      
+    </p>
+    <input
+      class="form-control"
+      type="date"
+      name="fechaSuscripcion"
+      [(ngModel)]="fechaSuscripcion"
+      required
+    />
+    <br>
+    
+    
+    <button (click)="suscribir()" class="btn btn-success" type="submit" >Suscribirse</button>
+    </div>
+    <div *ngIf="mensaje !== undefined">
+        <h3 style="color:red;">
+            {{this.mensaje}}
+        </h3>
+    </div>
+  </form>

@@ -1,0 +1,29 @@
+
+<div *ngIf="mensaje !== undefined">
+  <h3 style="color:red;">
+      {{this.mensaje}}
+  </h3>
+</div>
+
+<p><label>{{revista.meGustas}} me gusta en total</label>
+
+  @if (!revista.usuarioYaMeGusta) {
+
+
+    @if (!dioMeGusta) {
+      <form action="" method="POST" required>
+        <button class="btn btn-success" (click)="darMeGustaRevista()"  type="submit">Dar Me Gusta</button>
+      </form>
+    }
+    
+  }
+
+
+<br />
+
+<!-- Abajo es para saber si ya le dió me gusta-->
+@if (revista.usuarioYaMeGusta) {
+  <p><label>Ya le diste Me Gusta </label> <br /></p>
+}
+
+

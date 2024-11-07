@@ -1,0 +1,42 @@
+<section class="section">
+    <div class="container">
+        
+        <br>
+        <br>
+        <h1>PUBLICAR REVISTA</h1>
+        <br>
+        <div *ngIf="mensaje !== undefined">
+            <h3 style="color:red;">
+                {{this.mensaje}}
+            </h3>
+        </div>
+
+
+        <h2>Llene correctamente los siguientes apartados para publicar una nueva revista</h2>
+        <form action="" method="POST" required>
+
+            <p><label>Archivo revista: </label> <input class="form-control" type="file" name="archivoRevista" [(ngModel)]="archivoRevista" required></p>
+            <p><label>Describa su revista: </label> <input class="form-control" type="text" name="descripcion" [(ngModel)]="descripcion" required></p>
+            <p><label>Categoría: </label>
+                <select #categorias (change)="onSelected(categorias.value)" class="form-control" id="select" name="categoria">
+                    <option value="CIENCIA">Ciencia</option>
+                    <option value="FICCION">Ficción</option>
+                    <option value="DEPORTES">Deportes</option>
+                    <option value="BELLEZA">Belleza</option>
+                    <option value="INFANTIL">Infantil</option>
+                    <option value="CARROS">Carros</option>
+                    <option value="NOTICIAS">Noticias</option>
+                </select>
+            </p>
+
+            <p><label>Etiquetas: </label> <input class="form-control" type="text" name="etiquetas" [(ngModel)]="etiquetas" required></p>
+            <p><label>Fecha Publicación: </label>
+                <input class="form-control" type="date" name="fechaPublicacion" [(ngModel)]="fechaPublicacion" required>
+            </p>
+
+            <br>
+            <button (click)="publicarRevista()" class="btn btn-success" type="submit">Publicar</button>
+        </form>
+
+    </div>
+</section>

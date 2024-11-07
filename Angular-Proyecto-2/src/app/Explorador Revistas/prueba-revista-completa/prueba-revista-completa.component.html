@@ -1,0 +1,50 @@
+<div class="flex"> 
+
+  <!-- <aside class="col-md-3 bg-dark text-white" style="padding : 50px;"> -->
+  <aside class="col-md-3 text-black" style="padding : 50px;">
+    <app-anuncios-media [anunciosList]="this.anunciosList"></app-anuncios-media> 
+  </aside>        
+
+
+
+  <div >
+<br>
+<h1>REVISTA {{revista.numeroRevista}}</h1>
+<p>Descripción:   {{revista.descripcion}}</p>
+<p>Categoría:   {{revista.categoria}}</p>
+<p>Etiquetas:   {{revista.tagsString}}</p>
+<p>Me gustas:   {{revista.meGustas}}</p>
+<br>
+
+<p>
+  <b>Perfil Autor: </b>
+  <button class="btn btn-success" (click)="booleanMostrarPerfil()">
+    "{{ revista.nombreAutor }}"
+  </button>
+</p>
+<div *ngIf="mostrarPerfilAutor">
+    <app-perfil-autor [autor]="this.autor"></app-perfil-autor>
+  </div>
+
+  <br>
+  <br>
+  
+  @if (revista.estadoMeGustas) {
+      <app-me-gusta [revista]="revista"></app-me-gusta>
+  } @else {
+      <p>EL AUTOR DESHABILITÓ LOS DAR ME GUSTA</p>
+  }
+
+  @if (revista.estadoComentarios) {
+      <app-comentar [revista]="revista"></app-comentar>
+  } @else {
+      <p>EL AUTOR DESHABILITÓ LOS COMENTARIOS</p>
+  }
+</div>
+
+
+  </div>
+
+
+
+          

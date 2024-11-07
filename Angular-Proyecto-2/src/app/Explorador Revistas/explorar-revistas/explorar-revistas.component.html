@@ -1,0 +1,58 @@
+
+
+
+    <br>
+    <br>
+    <h1>EXPLORAR REVISTAS</h1>
+    <br>
+
+    <!-- <app-filtrador-revistas [revistasList]="revistasList"></app-filtrador-revistas> -->
+    <h3>Filtrar Revistas</h3>
+    
+    <form required>
+        <p><label>Categorías: </label>
+            <select class="form-control" #category (change)="onSelectedCategory(category.value)" name="categorias">
+                <option value="">--</option>
+                <option value="CIENCIA">Ciencia</option>
+                <option value="FICCION">Ficcion</option>
+                <option value="DEPORTES">Deportes</option>
+                <option value="BELLEZA">Belleza</option>
+                <option value="INFANTIL">Infantil</option>
+                <option value="CARROS">Carros</option>
+                <option value="NOTICIAS">Noticias</option>
+            </select>
+        </p>
+        <p><label>Etiquetas: </label>
+            <select class="form-control" #tag (change)="onSelectedTag(tag.value)" name="etiquetas">
+                <option value="">--</option>
+                @for (revista of revistasList; track $index) {
+                <option value="{{revista.tagsString}}">{{revista.tagsString}}</option>
+                }
+            </select>
+        </p>
+        <button class="btn btn-success" type="button" (click)="filtrar()">Filtrar</button>
+    </form>
+    <br>
+    <br>
+
+    <h2>REVISTAS REGISTRADAS  </h2>
+
+    
+
+    @for (revista of revistasFiltradasList; track $index) {
+        <div class="card">
+            <div class="card-body">
+                <app-revista-individual [revista]="revista"></app-revista-individual>
+                
+
+                @if (!revista.usuarioSuscrito) {
+                    @if (revista.estadoSuscripcion) {
+                        <app-suscribir [revista]="revista"></app-suscribir>
+                    } @else {
+                        <p>EL AUTOR DESHABILITÓ LAS SUSCRIPCIONES</p>
+                    }
+                }
+            </div>
+        </div>
+    }
+

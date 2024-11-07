@@ -1,0 +1,14 @@
+
+
+<div *ngIf="mensaje !== undefined">
+    <h3 style="color:red;">
+        {{this.mensaje}}
+    </h3>
+</div>
+
+<form action="" method="POST" required>
+    <p><label>Añadir Comentario: </label>
+    <p><input class="form-control" type="text" name="comentario" placeholder="Comentario" [(ngModel)]="comentario" required></p>
+    
+    <button class="btn btn-success" (click)="comentarRevista()" type="submit">Agregar Comentario</button>
+</form> 

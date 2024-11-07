@@ -1,0 +1,33 @@
+<!-- <h3 style="color:red;">
+    
+</h3>
+
+<h2>Activar o Desactivar Anuncios</h2>
+<h4>Seleccione el estado deseado</h4>
+<form required>
+    <p><label>Estado: </label>
+        <select class="form-control" id="select" name="estadoSeleccionado">
+            <option value="true">Activar</option>
+            <option value="false">Desactivar</option>
+        </select>
+    </p>
+    <button class="btn btn-success" type="submit">Cambiar estado del anuncio</button>
+</form>
+
+<br />
+<br />
+<br /> -->
+
+<h2>Cambiar estado Anuncios</h2>
+@for (anuncio of anunciosList; track $index) {
+    <div class="card">
+        <div class="card-body">
+
+            <app-anuncio [anuncio]="anuncio"></app-anuncio>                    
+
+        </div>
+    </div>
+    <br />
+    <br />
+
+}

@@ -1,0 +1,26 @@
+<!-- <section class="section">
+    <div class="container"> -->
+        
+        <br>
+        
+        <h1>REVISTA {{revista.numeroRevista}}</h1>
+        <p>Descripción:   {{revista.descripcion}}</p>
+        <p>Categoría:   {{revista.categoria}}</p>
+        <p>Etiquetas:   {{revista.tagsString}}</p>
+        <p>Me gustas:   {{revista.meGustas}}</p>
+        <br>
+        
+        <p>
+          <b>Perfil Autor: </b>
+          <button class="btn btn-success" (click)="booleanMostrarPerfil()">
+            "{{ revista.nombreAutor }}"
+          </button>
+        </p>
+        <div *ngIf="mostrarPerfilAutor">
+            <app-perfil-autor [autor]="autor"></app-perfil-autor>
+          </div>
+
+          
+        
+    <!-- </div>
+</section> -->

@@ -1,0 +1,34 @@
+<h3>ANUNCIO {{ anuncio.idAnuncio}}</h3>
+    <br />
+    
+    <p>
+        @if (anuncio.tipo == "TEXTOeIMAGEN") {
+            <b>Tipo:</b> Texto e Imagen
+        } @else {
+            <b>Tipo:</b> {{ anuncio.tipo}}
+        }  
+        
+        @if (anuncio.vigenciaInt == 1) {
+        <b>&emsp;Vigencia:</b> {{ anuncio.vigenciaInt }} día
+        } @else {
+        <b>&emsp;Vigencia:</b> {{ anuncio.vigenciaInt }} días
+        }
+        
+        <b>&emsp;Costo Anuncio:</b> {{ anuncio.costoAnuncio }}
+        
+        <b>&emsp;Costo Ocultación:</b> {{ anuncio.costoOcultacion }}
+    </p>
+
+    <br />
+                        
+    <strong>
+    <font [size]="5">
+    @if (anuncio.estado == 1) {
+        <b>Estado:</b> ACTIVO  <!-- <button class="btn btn-success" (click)="cambiarEstadoAnuncio(anuncio.idAnuncio)">Modificar Estado</button> -->
+    } @else {
+        <b>Estado:</b> DESACTIVADO <!-- <button class="btn btn-success" (click)="cambiarEstadoAnuncio(anuncio.idAnuncio)">Modificar Estado</button> -->
+    }
+    </font>
+    </strong>   
+    <button class="btn btn-success" (click)="cambiarEstadoAnuncio(anuncio.idAnuncio)">Modificar Estado</button>
+    <br />

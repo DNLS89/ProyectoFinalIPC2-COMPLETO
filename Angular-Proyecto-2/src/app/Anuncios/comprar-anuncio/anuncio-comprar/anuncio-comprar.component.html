@@ -1,0 +1,44 @@
+<!--NUMERO DEL ANUNCIO Y LA OPCION DE COMPRARLO-->
+<h3>ANUNCIO {{ anuncio.idAnuncio}} 
+    <!-- PERMITE COMPRAR UN ANUNCIO, EN SI LO OCULTA Y EN EL BACKEND LO COMPRA-->
+    @if (eliminacionAnuncio) {
+        
+    }
+</h3>
+
+
+
+<!-- DATOS DEL ANUNCIO-->
+<br />
+<div *ngIf="eliminacionAnuncio">
+    <p>
+        @if (anuncio.tipo == "TEXTOeIMAGEN") {
+            <b>Tipo:</b> Texto e Imagen
+        } @else {
+            <b>Tipo:</b> {{ anuncio.tipo}}
+        }  
+        @if (anuncio.vigenciaInt == 1) {
+        <b>&emsp;Vigencia:</b> {{ anuncio.vigenciaInt }} día
+        } @else {
+        <b>&emsp;Vigencia:</b> {{ anuncio.vigenciaInt }} días
+        }
+        <font [size]="5">
+            <b style="color: red">&emsp;Costo: {{ anuncio.costoAnuncio }}</b>
+        </font>
+    </p>
+    <br />
+
+    <form [formGroup]="comprarAnuncioForm" >
+        <p><label>Fecha Compra: </label>
+            <input class="form-control" type="date" name="fechaCompra" formControlName="fechaCompra" required>
+        </p>  
+
+        <button class="btn btn-success" [disabled]="comprarAnuncioForm.invalid" (click)="comprarAnuncio()">Comprar </button>
+    </form>
+</div>
+
+<br />
+<br />
+  
+
+

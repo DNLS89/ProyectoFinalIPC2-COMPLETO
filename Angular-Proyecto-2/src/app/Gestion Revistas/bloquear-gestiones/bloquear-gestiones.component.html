@@ -1,0 +1,28 @@
+
+
+<div *ngIf="mensaje !== undefined">
+    <h3 style="color:red;">
+        {{this.mensaje}}
+    </h3>
+</div>
+
+@if (revista.estadoSuscripcion) {
+    <p>Las suscripciones están HABILITADAS    <button (click)="cambiarEstado(this.revista.estadoSuscripcion, 'Suscripciones')" class="btn btn-success">Cambiar</button></p>
+} @else {
+    <p>Las suscripciones están DESHABILITADAS    <button (click)="cambiarEstado(this.revista.estadoSuscripcion, 'Suscripciones')" class="btn btn-success">Cambiar</button></p>
+}
+
+@if (revista.estadoComentarios) {
+    <p>Los comentarios están HABILITADOS    <button (click)="cambiarEstado(this.revista.estadoComentarios, 'Comentarios')" class="btn btn-success">Cambiar</button></p>
+} @else {
+    <p>Los comentarios están DESHABILITADOS    <button (click)="cambiarEstado(this.revista.estadoComentarios,'Comentarios')" class="btn btn-success">Cambiar</button></p>
+}
+
+@if (revista.estadoMeGustas) {
+    <p>Los Me Gustas están HABILITADOS    <button (click)="cambiarEstado(this.revista.estadoMeGustas,'MeGustas')" class="btn btn-success">Cambiar</button></p>
+} @else {
+    <p>Los Me Gustas están DESHABILITADOS    <button (click)="cambiarEstado(this.revista.estadoMeGustas,'MeGustas')" class="btn btn-success">Cambiar</button></p>
+}
+
+<br />
+<br />

@@ -1,0 +1,94 @@
+
+<div class="container">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/inicio" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+          <!--<svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>-->
+          <span class="fs-4">{{nombreUsuarioCuenta}}</span>
+      </a>
+      <nav>
+      <ul>
+        <li>
+          <a>Anuncios▾</a>
+          <ul class="dropdown">
+            <div *appRoles="['ADMINISTRADOR']">
+              <li class="nav-item" ><a routerLink="/menu/gestorAnuncios/crearAnuncio" class="nav-link" routerLinkActive="active" aria-current="page">Crear Anuncios</a></li>
+              <li class="nav-item" ><a routerLink="/menu/gestorAnuncios/modificarAnuncios" class="nav-link" routerLinkActive="active" aria-current="page">Modificar Anuncios</a></li>
+              <li class="nav-item" ><a routerLink="/menu/gestorAnuncios/estadoAnuncio" class="nav-link" routerLinkActive="active" aria-current="page">Cambiar estado Anuncios</a></li>
+            </div>
+            <!-- CREO QUE ABAJO SE DEBE QUITAR LO DE ADMINISTRADOR -->
+            <div *appRoles="['ANUNCIADOR', 'ADMINISTRADOR']">
+              <li class="nav-item" ><a routerLink="/menu/gestorAnuncios/comprarAnuncio" class="nav-link" routerLinkActive="active" aria-current="page">Comprar Anuncios</a></li>
+            <li class="nav-item" ><a routerLink="/menu/gestorAnuncios/estadoAnuncioAnunciador" class="nav-link" routerLinkActive="active" aria-current="page">Cambiar estado Anuncios</a></li>
+            </div>
+          </ul>
+        </li>
+
+        
+        <li>
+          <div *appRoles="['ADMINISTRADOR']">
+          <a>Reportes Admin.▾</a>
+          <ul class="dropdown">
+            
+            <li class="nav-item" ><a routerLink="/menu/reportesAdmin/ganancias" class="nav-link" routerLinkActive="active" aria-current="page">Ganancias</a></li>
+            <li class="nav-item" ><a routerLink="/menu/reportesAdmin/anunciosComprados" class="nav-link" routerLinkActive="active" aria-current="page">Anuncios comprados</a></li>
+            <li class="nav-item" ><a routerLink="/menu/reportesAdmin/gananciasPorAnunciante" class="nav-link" routerLinkActive="active" aria-current="page">Ganancias por Anunciante</a></li>
+            <li class="nav-item" ><a routerLink="/menu/reportesAdmin/revistasMasPopulares" class="nav-link" routerLinkActive="active" aria-current="page">Revistas Más Populares</a></li>
+            <li class="nav-item" ><a routerLink="/menu/reportesAdmin/revistasMasComentadas" class="nav-link" routerLinkActive="active" aria-current="page">Revistas Más Comentadas</a></li>
+            <li class="nav-item" ><a routerLink="/menu/reportesAdmin/efectividadAnuncios" class="nav-link" routerLinkActive="active" aria-current="page">Efectividad Anuncios</a></li>
+            
+          </ul>
+          </div>
+        </li>
+
+        <li>
+          <div *appRoles="['AUTOR', 'ADMINISTRADOR']">
+          <a>Reportes Editor.▾</a>
+          <ul class="dropdown">
+            
+            <li class="nav-item" ><a routerLink="/menu/reportesAutor/comentarios" class="nav-link" routerLinkActive="active" aria-current="page">Comentarios a Revistas</a></li>
+            <li class="nav-item" ><a routerLink="/menu/reportesAutor/suscripciones" class="nav-link" routerLinkActive="active" aria-current="page">Suscripciones a Revistas</a></li>
+            <li class="nav-item" ><a routerLink="/menu/reportesAutor/revistasMasGustadas" class="nav-link" routerLinkActive="active" aria-current="page">Revistas Más Gustadas</a></li>
+            <li class="nav-item" ><a routerLink="/menu/reportesAutor/pagosHechos" class="nav-link" routerLinkActive="active" aria-current="page">Pagos Hechos</a></li>
+                       
+          </ul>
+          </div>
+        </li>
+      
+
+        <li class="nav-item" ><a routerLink="/menu/tienda" class="nav-link" routerLinkActive="active" aria-current="page">Tienda</a></li> 
+      
+        <li>
+          <a>Revistas ▾</a>
+          <ul class="dropdown">
+            <li class="nav-item" ><a routerLink="/menu/explorarRevistas" class="nav-link" routerLinkActive="active" aria-current="page" >Explorar Revistas</a></li>
+            <li class="nav-item" ><a routerLink="/menu/revistasSuscritas" class="nav-link" routerLinkActive="active" aria-current="page">Revistas Suscritas</a></li>
+
+            <div *appRoles="['EDITOR', 'ADMINISTRADOR']">
+              <li class="nav-item" ><a routerLink="/menu/publicarRevista" class="nav-link" routerLinkActive="active" aria-current="page">Publicar Revista</a></li>
+              <li class="nav-item" ><a routerLink="/menu/revistasPublicadas" class="nav-link" routerLinkActive="active" aria-current="page">Revistas Publicadas</a></li>
+            </div>
+          </ul>
+        </li>
+        
+        <li class="nav-item" (click)="editarPerfilComponent?.ngOnInit()"><a routerLink="/menu/editarPerfil" class="nav-link" routerLinkActive="active" aria-current="page">Editar Perfil</a></li>
+        <li class="nav-item"><a routerLink="/login" class="nav-link" routerLinkActive="active" aria-current="page" (click)="myFunc()">Cerrar Sesión</a></li>
+
+      </ul>
+    </nav>
+  </header>
+</div>
+
+
+  <main>
+    <section class="section">
+        <div class="container">
+
+          <div >
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+    </section>
+  </main>
+
+
+<app-footer></app-footer>

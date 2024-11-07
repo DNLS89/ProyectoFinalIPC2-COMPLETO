@@ -1,0 +1,12 @@
+<h2>Modificar Anuncios Creados</h2>
+    @for (anuncio of anunciosList; track $index) {
+        <div class="card">
+            <div class="card-body">
+
+                <app-modificar-anuncio [anuncio]="anuncio"></app-modificar-anuncio>  
+                        
+
+            </div>
+        </div>
+        
+    }

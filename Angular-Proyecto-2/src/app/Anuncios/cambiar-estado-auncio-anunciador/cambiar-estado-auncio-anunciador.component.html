@@ -1,0 +1,14 @@
+
+<h2>Cambiar estado Anuncios</h2>
+@for (anuncio of anunciosList; track $index) {
+    <div class="card">
+        <div class="card-body">
+
+            <app-anuncio-anunciador [anuncio]="anuncio"></app-anuncio-anunciador>                    
+
+        </div>
+    </div>
+    <br />
+    <br />
+
+}

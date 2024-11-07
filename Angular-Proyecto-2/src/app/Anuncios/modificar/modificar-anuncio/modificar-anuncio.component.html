@@ -1,0 +1,76 @@
+<!--NUMERO DEL ANUNCIO Y LA OPCION DE ELIMINARLO-->
+<h3>ANUNCIO {{ anuncio.idAnuncio}} 
+    <!-- PERMITE ELIMINAR UN ANUNCIO, EN SI LO OCULTA Y EN EL BACKEND LO ELIMINA-->
+    @if (eliminacionAnuncio) {
+        <button class="btn btn-success" (click)="eliminarAnuncio()">Eliminar </button>
+    }
+</h3>
+
+<h3 style="color:red;">
+    {{mensajeEliminacionAnuncio}}
+</h3>
+
+<!-- DATOS DEL ANUNCIO-->
+<br />
+<div *ngIf="eliminacionAnuncio">
+<p>
+    @if (this.tipoAnuncio == "TEXTOeIMAGEN") {
+        <b>Tipo:</b> Texto e Imagen
+    } @else {
+        <b>Tipo:</b> {{ this.tipoAnuncio}}
+    }  
+    @if (anuncio.vigenciaInt == 1) {
+    <b>&emsp;Vigencia:</b> {{ this.vigenciaAnuncio }} día
+    } @else {
+    <b>&emsp;Vigencia:</b> {{ this.vigenciaAnuncio }} días
+    }
+    <b>&emsp;Costo Anuncio:</b> {{ this.costoAnuncio }}
+    <b>&emsp;Costo Ocultación:</b> {{ this.costoOcultacion }}
+</p>
+<br />
+
+
+<!-- MODIFICAR ANUNCIO-->
+
+<h3 style="color:red;">
+    {{mensajeModificarAnuncio}}
+</h3>
+<button class="btn btn-success" (click)="booleanMostrarModificarAnuncio()">Modificar Perfil Anuncio 
+    "{{ anuncio.idAnuncio }}"
+  </button>
+
+  <div *ngIf="mostrarModificarAnuncio">
+        <br />
+        <form [formGroup]="modificarAnuncioForm" >
+            <p><label>Tipo de Anuncio: </label>
+                <select formControlName="tipoAnuncio" class="form-control" name="tipoAnuncio">
+                    <option value="TEXTO">Texto</option>
+                    <option value="TEXTOeIMAGEN">Texto e Imagen</option>
+                    <option value="VIDEO">Video</option>
+                </select>
+            </p>
+            <p><label>Vigencia del Anuncio: </label>
+                <select formControlName="vigenciaAnuncio"  class="form-control" name="vigenciaAnuncio">
+                    <option value="UNDIA">1 día</option>
+                    <option value="TRESDIAS">3 días</option>
+                    <option value="UNASEMANA">1 semana</option>
+                    <option value="DOSSEMANAS">2 semanas</option>
+                </select>
+            </p>
+            <p><label>Precio de Venta del Anuncio:</label>
+                <input formControlName="costoAnuncio" class="form-control" type="number" [(ngModel)]="anuncio.costoAnuncio" name="fechaCompra" min="0">
+            </p>
+            <p><label>Precio de Ocultación del Anuncio: </label>
+                <input formControlName="costoOcultacion" class="form-control" type="number" [(ngModel)]="anuncio.costoOcultacion" name="fechaCompra" min="0">
+            </p>
+            
+            <button class="btn btn-success" type="submit" [disabled]="modificarAnuncioForm.invalid" (click)="modificarAnuncio()">Modificar Anuncio</button>
+        </form>
+     
+  </div>
+</div>
+  <br />
+  <br />
+  
+
+

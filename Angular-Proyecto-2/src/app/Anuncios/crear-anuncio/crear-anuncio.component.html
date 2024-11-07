@@ -1,0 +1,31 @@
+<h3 style="color:red;">
+    {{mensajeCreacionAnuncio}}
+</h3>
+
+<h2>Crear Anuncio</h2>
+<h4>Seleccione el tipo y vigencia del anuncio que desea crear</h4>
+<form [formGroup]="crearAnuncioForm" >
+    <p><label>Tipo de Anuncio: </label>
+        <select formControlName="tipoAnuncio" class="form-control" name="tipoAnuncio">
+            <option value="TEXTO">Texto</option>
+            <option value="TEXTOeIMAGEN">Texto e Imagen</option>
+            <option value="VIDEO">Video</option>
+        </select>
+    </p>
+    <p><label>Vigencia del Anuncio: </label>
+        <select formControlName="vigenciaAnuncio"  class="form-control" name="vigenciaAnuncio">
+            <option value="UNDIA">1 día</option>
+            <option value="TRESDIAS">3 días</option>
+            <option value="UNASEMANA">1 semana</option>
+            <option value="DOSSEMANAS">2 semanas</option>
+        </select>
+    </p>
+    <p><label>Precio de Venta del Anuncio: </label>
+        <input formControlName="costoAnuncio" class="form-control" type="number" name="fechaCompra" min="0">
+    </p>
+    <p><label>Precio de Ocultación del Anuncio: </label>
+        <input formControlName="costoOcultacion" class="form-control" type="number" name="fechaCompra" min="0">
+    </p>
+    
+    <button class="btn btn-success" type="submit" [disabled]="crearAnuncioForm.invalid" (click)="crearAnuncio()">Crear Anuncio</button>
+</form>
