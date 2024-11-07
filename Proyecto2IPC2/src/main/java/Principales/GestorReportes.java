@@ -282,13 +282,13 @@ public class GestorReportes {
     }
     
     public ArrayList<Revista> extraerMeGustas(String nombrePublicador) {
-        String comandoRevistasSuscritas = "SELECT m.*, p.nombre_usuario FROM megusta m JOIN publicar p ON m.numero_revista = p.numero_revista WHERE p.nombre_usuario LIKE ? ORDER BY numero_revista;";
+        String comandoRevistasSuscritas = "SELECT m.*, p.nombre_usuario FROM megusta m JOIN publicar p ON m.numero_revista = p.numero_revista ORDER BY numero_revista;";
         ArrayList<Revista> meGustas = new ArrayList<>();
         
         try {
 
             PreparedStatement comando = connection.prepareStatement(comandoRevistasSuscritas);
-            comando.setString(1, nombrePublicador);
+            //comando.setString(1, nombrePublicador);
             ResultSet resultSet = comando.executeQuery();
 
 
@@ -324,47 +324,26 @@ public class GestorReportes {
         return null;
     }
     
-    public ArrayList<Revista> extraerRecurrenciasMeGustas(String nombrePublicador, String fechaInicio, String fechaFin, String numeroRevistaInput, MotorPrograma motorPrograma) {
+    public ArrayList<Revista> extraerRecurrenciasMeGustas(String nombrePublicador, String fechaInicio, String fechaFin, MotorPrograma motorPrograma) {
         
         ArrayList<Revista> meGustasOcurrencias = new ArrayList<>();
-        int numeroRevistaInt = -1;
-        if (!numeroRevistaInput.equals("undefined")) {
-            numeroRevistaInt = Integer.parseInt(numeroRevistaInput);
-        }
         
         String comandoOcurrencias = "";
         
         //El proceso es para saber que datos meter en el Prepared Statement
         int proceso = -1;
         
-        if (numeroRevistaInput.equals("undefined") && fechaInicio.equals("undefined") && fechaFin.equals("undefined")) {
+        if (fechaInicio.equals("undefined") && fechaFin.equals("undefined")) {
             //No filtra por revista ni fecha
             proceso = 1;
-            comandoOcurrencias = "SELECT m.*, p.nombre_usuario, COUNT(m.numero_revista) OVER(PARTITION BY m.numero_revista) "
-                    + "AS occurrences FROM megusta m JOIN publicar p ON m.numero_revista = p.numero_revista "
-                    + "WHERE p.nombre_usuario LIKE ? ORDER BY m.numero_revista DESC LIMIT 5;";
+            comandoOcurrencias = "select numero_revista, count(*) AS occurrences FROM megusta GROUP BY numero_revista ORDER BY occurrences DESC LIMIT 5;";
             
-        } else if (!numeroRevistaInput.equals("undefined") && fechaInicio.equals("undefined") && fechaFin.equals("undefined")) {
-            //Filtra SOLO por revista
-            proceso = 2;
-            comandoOcurrencias = "SELECT m.*, p.nombre_usuario, COUNT(m.numero_revista) OVER(PARTITION BY m.numero_revista) "
-                    + "AS occurrences FROM megusta m JOIN publicar p ON m.numero_revista = p.numero_revista "
-                    + "WHERE p.nombre_usuario LIKE ? AND m.numero_revista LIKE ? ORDER BY occurrences DESC LIMIT 5;";
-            
-        } else if (numeroRevistaInput.equals("undefined") && !(fechaInicio.equals("undefined") || fechaFin.equals("undefined"))) {
+        } else if (!(fechaInicio.equals("undefined") || fechaFin.equals("undefined"))) {
             //Filtra solo por fechas
-            proceso = 3;
-            comandoOcurrencias = "SELECT m.*, p.nombre_usuario, COUNT(m.numero_revista) OVER(PARTITION BY m.numero_revista) "
-                    + "AS occurrences FROM megusta m JOIN publicar p ON m.numero_revista = p.numero_revista "
-                    + "WHERE p.nombre_usuario LIKE ? AND m.fecha_creacion BETWEEN ? AND ? ORDER BY occurrences DESC LIMIT 5;";
+            proceso = 2;
+            comandoOcurrencias = "SELECT numero_revista, COUNT(*) AS occurrences FROM megusta WHERE fecha_creacion BETWEEN ? AND ? "
+                    + "GROUP BY numero_revista ORDER BY occurrences DESC LIMIT 5;";
             
-        } else if (!numeroRevistaInput.equals("undefined") && !fechaInicio.equals("undefined") && !fechaFin.equals("undefined")) {
-            //Para numero revista y fechas
-            proceso = 4;
-            comandoOcurrencias = "SELECT m.*, p.nombre_usuario, COUNT(m.numero_revista) OVER(PARTITION BY m.numero_revista) "
-                    + "AS occurrences FROM megusta m JOIN publicar p ON m.numero_revista = p.numero_revista "
-                    + "WHERE p.nombre_usuario LIKE ? AND (m.fecha_creacion BETWEEN ? AND ?) AND m.numero_revista "
-                    + "LIKE ? ORDER BY occurrences DESC LIMIT 5;";
         } else {
             return null;
         }
@@ -374,20 +353,11 @@ public class GestorReportes {
         try {
 
             PreparedStatement comando = connection.prepareStatement(comandoOcurrencias);
-            comando.setString(1, nombrePublicador);
             
             switch (proceso) {
                 case 2:
-                    comando.setInt(2, numeroRevistaInt);
-                    break;
-                case 3:
-                    comando.setDate(2, motorPrograma.formatoFechaAdecuado(fechaInicio));
-                    comando.setDate(3, motorPrograma.formatoFechaAdecuado(fechaFin));
-                    break;
-                case 4:
-                    comando.setDate(2, motorPrograma.formatoFechaAdecuado(fechaInicio));
-                    comando.setDate(3, motorPrograma.formatoFechaAdecuado(fechaFin));
-                    comando.setInt(4, numeroRevistaInt);
+                    comando.setDate(1, motorPrograma.formatoFechaAdecuado(fechaInicio));
+                    comando.setDate(2, motorPrograma.formatoFechaAdecuado(fechaFin));
                     break;
                 default:
                     break;
@@ -401,17 +371,10 @@ public class GestorReportes {
                 
                 
                 Revista revista = new Revista(numeroRevista);
-
-                String usuarioQueDioMeGusta = resultSet.getString("nombre_usuario");
-                revista.setUsuarioQueDioMeGusta(usuarioQueDioMeGusta);
                 
                 String numeroRevistaString = resultSet.getString("numero_revista");
                 revista.setNumeroRevistaString(numeroRevistaString);
 
-                
-                Date fechaProceso = resultSet.getDate("fecha_creacion");
-                revista.setFechaProceso(fechaProceso);
-                
                 int ocurrencias = resultSet.getInt("occurrences");
                 revista.setOccurrences(ocurrencias);
 

@@ -9,18 +9,8 @@
         </p>
         <input [(ngModel)]="_fechaFin" class="form-control" type="date" name="fechaFin" required>
         <br>
-        <p><label>Filtrar por revista: </label>
-            <select class="form-control" #numeroRevista (change)="onSelectedNumeroRevista(numeroRevista.value)">
-                <option value="undefined">--</option>
-                
-                <option *ngFor="let item of valorUnicoList; let i = index" [value]="item.numeroRevista">
-                    <span> {{item.numeroRevista}}</span>
-                </option>
-                                
-            </select>
-        </p>
-        <!-- <button class="btn btn-success" type="button" (click)="filtrar()">Filtrar</button> -->
-        <button class="btn btn-success" type="button" (click)="obtenerRecurrencia()">Filtrar</button>
+        
+        <button class="btn btn-success" type="button" (click)="obtenerRecurrencia()" >Filtrar</button>
     </form>
 
     <br>
@@ -31,7 +21,7 @@
     <div class="card">
         <div class="card-body">
 
-            @for (ocurrencia of valorUnicoList; ; track $index) {
+            @for (ocurrencia of recurrenciaList; ; track $index) {
                 @for (meGusta of meGustasFiltradasList; track $index) {
 
                     @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
@@ -44,15 +34,6 @@
     
             }
 
-            <!-- @for (meGusta of meGustasFiltradasList; track $index) {
-
-                <br>
-                <h4>Revista Suscrita: {{meGusta.numeroRevista}}</h4>
-                <p>Fecha: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}</p>
-                <p>Usuario que se suscribió: {{meGusta.usuarioQueSeSuscribio}}</p>
-                
-                   
-            } -->
 
         </div>
     </div>

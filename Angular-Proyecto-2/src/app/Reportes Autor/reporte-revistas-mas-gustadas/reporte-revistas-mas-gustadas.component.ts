@@ -31,7 +31,7 @@ export class ReporteRevistasMasGustadasComponent {
         this.meGustasFiltradasList = listado;
         console.log("TODOS LOS ME GUSTAS: ")
         console.log(this.meGustasList);
-        this.extractUniqueEntities();
+        /* this.extractUniqueEntities(); */
         this.obtenerRecurrencia();
       },
       error: (error: any) => {
@@ -42,24 +42,23 @@ export class ReporteRevistasMasGustadasComponent {
 
 
   obtenerRecurrencia() {
-    console.log("Valores elementos mandados a ocurrence:");
-    console.log("Fecha Inicio: " + this._fechaInicio + " fecha fin: " + this._fechaFin + " numero revsita:" + this._filteredNumeroRevista);
 
+    /* console.log("Valores")
+    console.log("fehcaini: " + this._fechaInicio + " fehcafin" + this._fechaFin) */
 
     this.reportesAutorService
-    .obtenerRecurrenciasRevistasConMeGustas(localStorage.getItem("nombreUsuario")!, this._fechaInicio, this._fechaFin, this._filteredNumeroRevista)
+    .obtenerRecurrenciasRevistasConMeGustas(localStorage.getItem("nombreUsuario")!, this._fechaInicio, this._fechaFin)
     .subscribe({
       next: (listado: Revista[]) => {
         console.log("Todo fue bien, procesando response...");
         this.recurrenciaList = listado;
         console.log("Recurrencia:")
         console.log(this.recurrenciaList)
-        this.extractUniqueEntities();
 
-        console.log("Valor Unico");
-        console.log(this.valorUnicoList);
 
-        
+        /* this.extractUniqueEntities(); */
+
+        this.filtrar();       
         
       },
       error: (error: any) => {
@@ -67,6 +66,59 @@ export class ReporteRevistasMasGustadasComponent {
       }
     });
   }
+
+
+  //LO SIGUIENTE FILTRA EN EL EXPLORADOR DE REVISTAS HAY QUE CAMBIARLO
+
+    //LO SIGUIENTE CUMPLE LA FUNCIÓN DE FILTRAR SEGÚN TAGS Y CATEGORIAS
+    _filteredNumeroRevista : string = "undefined";
+    fecha!: Date;
+    /* _fechaInicio: Date | string = "mm/dd/yyyy"; */
+    _fechaInicio: string = "undefined";
+    fechaInicio !: Date;
+    /* _fechaFin: Date | string = "mm/dd/yyyy"; */
+    _fechaFin: string = "undefined";
+    fechaFin!: Date;
+    meGustasFiltradasList: Revista[] = [];
+
+    filtrar () {
+      this.meGustasFiltradasList = this.filterRevistas();
+    }
+  
+  
+    filterRevistas() {
+      if (this.meGustasList.length === 0 || (this._fechaInicio === "undefined" && this._fechaFin === "undefined")) {
+        //No filtra
+        return this.meGustasList;
+  
+      } else if (this._fechaInicio != "undefined" && this._fechaFin != "undefined") {
+        return this.meGustasList.filter((revista) =>
+          {
+            //FILTRA SOLO EN BASE A LAS FECHAS
+                        
+            const fecha = new Date(revista.fechaProceso);
+            const fechaInicio = new Date (this._fechaInicio);
+            const fechaFin = new Date (this._fechaFin);
+
+            return fecha >= fechaInicio && fecha <= fechaFin;
+          })
+      } else {
+        //Filtra en BASE A FECHAS Y NUMERO DE REVISTA
+        return this.meGustasList.filter((revista) =>
+        {
+          //Cuando no cumple con ningún elemento
+
+          return this.meGustasList;
+            /* return revista.categoria === this._filteredNumeroRevista && revista.tagsString === this._filteredTags; */
+        })
+      }
+
+
+      
+    }
+
+
+
 
   valorUnicoList: Revista[] = [];
 
@@ -85,18 +137,6 @@ export class ReporteRevistasMasGustadasComponent {
 
 
 
-  //LO SIGUIENTE FILTRA EN EL EXPLORADOR DE REVISTAS HAY QUE CAMBIARLO
-
-    //LO SIGUIENTE CUMPLE LA FUNCIÓN DE FILTRAR SEGÚN TAGS Y CATEGORIAS
-    _filteredNumeroRevista : string = "undefined";
-    fecha!: Date;
-    /* _fechaInicio: Date | string = "mm/dd/yyyy"; */
-    _fechaInicio: string = "undefined";
-    fechaInicio !: Date;
-    /* _fechaFin: Date | string = "mm/dd/yyyy"; */
-    _fechaFin: string = "undefined";
-    fechaFin!: Date;
-    meGustasFiltradasList: Revista[] = [];
   
     onSelectedNumeroRevista(value : string): void {
       this._filteredNumeroRevista = value;

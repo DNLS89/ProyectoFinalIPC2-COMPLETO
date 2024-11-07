@@ -1,1 +1,43 @@
-<p>reporte-revistas-populares works!</p>
+<br>
+    <h3>Filtrar Me Gustas</h3>
+
+    <form required>
+        <p><label>Fecha Inicio: </label>
+        </p>
+        <input [(ngModel)]="_fechaInicio" class="form-control" type="date" name="fechaInicio" required>
+        <p><label>Fecha Final: </label>
+        </p>
+        <input [(ngModel)]="_fechaFin" class="form-control" type="date" name="fechaFin" required>
+        <br>
+        
+        <button class="btn btn-success" type="button" (click)="obtenerRecurrencia()" >Filtrar</button>
+    </form>
+
+    <br>
+    <br>
+
+    <h2>Me Gustas Hechos a sus Revistas: </h2>
+    
+    <div class="card">
+        <div class="card-body">
+
+            @for (ocurrencia of recurrenciaList; ; track $index) {
+                @for (meGusta of meGustasFiltradasList; track $index) {
+
+                    @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
+                        <br>
+                        <h4>Revista reaccionada: {{meGusta.numeroRevista}}</h4>
+                        <p>Fecha: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}</p>
+                        <p>Usuario que dió Me Gusta: {{meGusta.usuarioQueDioMeGusta}}</p>
+                    }   
+                }
+    
+            }
+
+
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <button class="btn btn-success" onclick="location.href='report1'"> Generar Reporte </button>

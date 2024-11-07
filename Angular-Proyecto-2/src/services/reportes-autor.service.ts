@@ -29,9 +29,9 @@ export class ReportesAutorService {
     return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAutor/extraerMeGustas/' + nombreUsuario );
   }
 
-  public obtenerRecurrenciasRevistasConMeGustas(nombreUsuario : string, fechaInicio : string, fechaFin : string, numeroRevista : String): Observable<Revista[]> {
+  public obtenerRecurrenciasRevistasConMeGustas(nombreUsuario : string, fechaInicio : string, fechaFin : string): Observable<Revista[]> {
     return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAutor/extraerMeGustas/recurrencias/' + nombreUsuario 
-    + "/" + fechaInicio + "/" + fechaFin + "/" + numeroRevista );
+    + "/" + fechaInicio + "/" + fechaFin);
   }
 
 }

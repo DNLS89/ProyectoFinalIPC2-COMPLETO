@@ -122,21 +122,21 @@ public class ReporteAutorResource {
     
     //OBTENER REVISTAS CON ME GUSTAS
     @GET
-    @Path("/extraerMeGustas/recurrencias/{nombreUsuario}/{fechaInicio}/{fechaFin}/{numeroRevista}")
+    @Path("/extraerMeGustas/recurrencias/{nombreUsuario}/{fechaInicio}/{fechaFin}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerRecurrenciasRevistasConMeGustas(@PathParam("nombreUsuario") String nombreUsuario, @PathParam("fechaInicio") String fechaInicio,
-            @PathParam("fechaFin") String fechaFin, @PathParam("numeroRevista") String numeroRevista) {
+            @PathParam("fechaFin") String fechaFin) {
         
         System.out.println("Extrayendo RECURRENCIAS ME GUSTAS");
         
-        System.out.println("PRUEBA VALORES INDEFINIDOS: " + numeroRevista + " fechaINi: " + fechaInicio + " fechafin:" + fechaFin);
+        System.out.println("PRUEBA VALORES INDEFINIDOS: fechaINi: " + fechaInicio + " fechafin:" + fechaFin);
         
         
         MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
         GestorReportes gestorReportes = motorPrograma.getGestorReportes();
         
         
-        ArrayList<Revista> revistasConMeGustas = gestorReportes.extraerRecurrenciasMeGustas(nombreUsuario, fechaInicio, fechaFin, numeroRevista, motorPrograma);
+        ArrayList<Revista> revistasConMeGustas = gestorReportes.extraerRecurrenciasMeGustas(nombreUsuario, fechaInicio, fechaFin, motorPrograma);
         
         if (revistasConMeGustas != null) {
             //System.out.println("Hay revistas");
