@@ -73,6 +73,7 @@ export class EditarPerfilComponent {
       next: () => {
         console.log("Todo fue bien, procesando response...");
         localStorage.setItem('nombreUsuario', this.nombreUsuario);
+        localStorage.setItem('role', this.rol);
         this.router.navigate(['/menu']);
       },
       error: (error: any) => {

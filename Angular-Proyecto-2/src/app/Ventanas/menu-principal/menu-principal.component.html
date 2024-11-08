@@ -8,6 +8,7 @@
       <nav>
       <ul>
         <li>
+          
           <a>Anuncios▾</a>
           <ul class="dropdown">
             <div *appRoles="['ADMINISTRADOR']">
@@ -22,7 +23,6 @@
             </div>
           </ul>
         </li>
-
         
         <li>
           <div *appRoles="['ADMINISTRADOR']">
@@ -41,7 +41,7 @@
         </li>
 
         <li>
-          <div *appRoles="['AUTOR', 'ADMINISTRADOR']">
+          <div *appRoles="['AUTOR', 'EDITOR', 'ADMINISTRADOR']">
           <a>Reportes Editor.▾</a>
           <ul class="dropdown">
             
@@ -63,7 +63,7 @@
             <li class="nav-item" ><a routerLink="/menu/explorarRevistas" class="nav-link" routerLinkActive="active" aria-current="page" >Explorar Revistas</a></li>
             <li class="nav-item" ><a routerLink="/menu/revistasSuscritas" class="nav-link" routerLinkActive="active" aria-current="page">Revistas Suscritas</a></li>
 
-            <div *appRoles="['EDITOR', 'ADMINISTRADOR']">
+            <div *appRoles="['EDITOR', 'EDITOR' ,'ADMINISTRADOR']">
               <li class="nav-item" ><a routerLink="/menu/publicarRevista" class="nav-link" routerLinkActive="active" aria-current="page">Publicar Revista</a></li>
               <li class="nav-item" ><a routerLink="/menu/revistasPublicadas" class="nav-link" routerLinkActive="active" aria-current="page">Revistas Publicadas</a></li>
             </div>
