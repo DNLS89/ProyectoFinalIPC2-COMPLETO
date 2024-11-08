@@ -49,7 +49,6 @@ public class ReporteAutorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerSuscripciones(@PathParam("nombreUsuario") String nombreUsuario) {
         
-        System.out.println("SUSCRIPCIONES datos ingresado: ");
         MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
         GestorReportes gestorReportes = motorPrograma.getGestorReportes();
         
@@ -74,7 +73,6 @@ public class ReporteAutorResource {
     public Response obtenerRevistasConMeGustas(@PathParam("nombreUsuario") String nombreUsuario) {
         
         
-        System.out.println("Extrayendo ME GUSTAS");
         MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
         GestorReportes gestorReportes = motorPrograma.getGestorReportes();
         
@@ -99,9 +97,7 @@ public class ReporteAutorResource {
     public Response obtenerRecurrenciasRevistasConMeGustas(@PathParam("nombreUsuario") String nombreUsuario, @PathParam("fechaInicio") String fechaInicio,
             @PathParam("fechaFin") String fechaFin) {
         
-        System.out.println("Extrayendo RECURRENCIAS ME GUSTAS");
         
-        System.out.println("PRUEBA VALORES INDEFINIDOS: fechaINi: " + fechaInicio + " fechafin:" + fechaFin);
         
         
         MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
@@ -127,7 +123,6 @@ public class ReporteAutorResource {
     public Response obtenerRevistasConPagos(@PathParam("nombreUsuario") String nombreUsuario) {
         
         
-        System.out.println("Extrayendo PAGOS");
         MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
         GestorReportes gestorReportes = motorPrograma.getGestorReportes();
         

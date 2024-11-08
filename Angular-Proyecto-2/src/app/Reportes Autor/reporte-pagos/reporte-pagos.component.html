@@ -32,7 +32,7 @@
                     @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
                         <br>
                         <!-- <h4>Revista reaccionada: {{meGusta.numeroRevista}}</h4> -->
-                        <p>Fecha pago: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}-------Monto: {{meGusta.costoSuscripcion}}</p>
+                        <p>Fecha pago: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}-------Monto: {{meGusta.costoSuscripcion}}-------Usuario "{{meGusta.usuarioQueDioMeGusta}}"</p>
                         <p></p>
                     }   
                 }

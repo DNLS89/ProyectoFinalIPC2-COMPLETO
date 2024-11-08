@@ -1,8 +1,7 @@
 <br>
-    <h3>Filtrar Anunciante</h3>
+    <h3>Filtrar Por Fechas</h3>
 
     <form required>
-        <p><label>Filtrar Por Fecha de Compra: </label>
         <p><label>Fecha Inicio: </label>
         </p>
         <input [(ngModel)]="_fechaInicio" class="form-control" type="date" name="fechaInicio" required>
@@ -10,40 +9,19 @@
         </p>
         <input [(ngModel)]="_fechaFin" class="form-control" type="date" name="fechaFin" required>
         <br>
-        <p><label>Tipo de Anuncio: </label>
-            <select #tipos (change)="onSelectedType(tipos.value)" class="form-control" name="tipoAnuncio">
-                <option value="">--</option>
-                <option value="TEXTO">Texto</option>
-                <option value="TEXTOeIMAGEN">Texto e Imagen</option>
-                <option value="VIDEO">Video</option>
-            </select>
-        </p>
-        <p><label>Vigencia del Anuncio: </label>
-            <select #vigencias (change)="onSelectedVigencia(vigencias.value)" class="form-control" name="vigenciaAnuncio">
-                <option value="">--</option>
-                <option value="1">1 día</option>
-                <option value="3">3 días</option>
-                <option value="7">1 semana</option>
-                <option value="14">2 semanas</option>
-            </select>
-        </p>
-        <!-- <p><label>Filtrar por revista: </label>
-            <select class="form-control" #numeroRevista (change)="onSelectedNumeroRevista(numeroRevista.value)">
-                <option value="">--</option>
-                
-                <option *ngFor="let item of valorUnicoList; let i = index" [value]="item.idAnuncio">
-                    <span> {{item.idAnuncio}}</span>
-                </option>
-                                
-            </select>
-        </p> -->
+        
+        
         <button class="btn btn-success" type="button" (click)="filtrar()">Filtrar</button>
     </form>
 
     <br>
     <br>
+    <h2>TOTAL COSTOS ANUNCIOS: {{costosAnuncios}}</h2>
+    <h2>TOTAL INGRESOS REVISTAS: {{ingresosRevistas}} </h2>
+    <br>
+    <br>
 
-    <h2>Anuncios: </h2>
+    <h2>Costos Anuncios Individuales: </h2>
     
     <div class="card">
         <div class="card-body">
@@ -52,15 +30,38 @@
 
                 <br>
                 <h4>Anuncio: {{anuncio.idAnuncio}}</h4>
-                <p>Fecha: {{anuncio.fechaInicio | date:'yyyy-MM-dd' }}</p>
-                <p>Usuario que compró el anuncio: {{anuncio.usuarioQueComproAnuncio}}</p>
-                <p>Tipo: {{anuncio.tipo}}</p>
-                <p>Vigencia: {{anuncio.vigenciaString}} días</p>
+                <p>Fecha: {{anuncio.fechaInicio | date:'yyyy-MM-dd' }}-----Usuario que compró el anuncio: {{anuncio.usuarioQueComproAnuncio}}-----Pago: {{anuncio.costoAnuncioDecimal}}</p>
                    
             }
-
         </div>
     </div>
+    <br>
+    <br>
+    <h2>Ingresos Revistas Individuales: </h2>
+    <div class="card">
+        <div class="card-body">
+
+            @for (ocurrencia of valorUnicoRevistaList; ; track $index) {
+                <div class="card">
+                    <div class="card-body">
+                <h4>Revista: {{ocurrencia.numeroRevista}}</h4>
+                @for (meGusta of pagosFiltradosList; track $index) {
+
+                    @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
+                        <br>
+                        <!-- <h4>Revista reaccionada: {{meGusta.numeroRevista}}</h4> -->
+                        <p>Fecha pago: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}-----Monto: {{meGusta.costoSuscripcion}}</p>
+                        <p></p>
+                    }   
+                }
+                    </div>
+                </div>
+                <br>
+    
+            }
+        </div>
+    </div>
+        
     
     <br>
     <br>
