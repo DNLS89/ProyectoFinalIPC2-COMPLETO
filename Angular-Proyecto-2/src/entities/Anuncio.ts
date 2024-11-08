@@ -8,6 +8,7 @@ export interface Anuncio {
     fechaInicio: Date,
     fechaFin: Date,
     nombreUsuario: string,
+    usuarioQueComproAnuncio: string;
     idAnuncio: number,
     idAnuncioString: string,
     costoAnuncio: number;

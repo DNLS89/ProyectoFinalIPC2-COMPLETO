@@ -2,6 +2,7 @@
     <h3>Filtrar Anuncios Comprados</h3>
 
     <form required>
+        <p><label>Filtrar Por Fecha de Compra: </label>
         <p><label>Fecha Inicio: </label>
         </p>
         <input [(ngModel)]="_fechaInicio" class="form-control" type="date" name="fechaInicio" required>
@@ -9,7 +10,24 @@
         </p>
         <input [(ngModel)]="_fechaFin" class="form-control" type="date" name="fechaFin" required>
         <br>
-        <p><label>Filtrar por revista: </label>
+        <p><label>Tipo de Anuncio: </label>
+            <select #tipos (change)="onSelectedType(tipos.value)" class="form-control" name="tipoAnuncio">
+                <option value="">--</option>
+                <option value="TEXTO">Texto</option>
+                <option value="TEXTOeIMAGEN">Texto e Imagen</option>
+                <option value="VIDEO">Video</option>
+            </select>
+        </p>
+        <p><label>Vigencia del Anuncio: </label>
+            <select #vigencias (change)="onSelectedVigencia(vigencias.value)" class="form-control" name="vigenciaAnuncio">
+                <option value="">--</option>
+                <option value="1">1 día</option>
+                <option value="3">3 días</option>
+                <option value="7">1 semana</option>
+                <option value="14">2 semanas</option>
+            </select>
+        </p>
+        <!-- <p><label>Filtrar por revista: </label>
             <select class="form-control" #numeroRevista (change)="onSelectedNumeroRevista(numeroRevista.value)">
                 <option value="">--</option>
                 
@@ -18,25 +36,26 @@
                 </option>
                                 
             </select>
-        </p>
+        </p> -->
         <button class="btn btn-success" type="button" (click)="filtrar()">Filtrar</button>
     </form>
 
     <br>
     <br>
 
-    <h2>Suscripciones Hechas a sus Revistas: </h2>
+    <h2>Anuncios: </h2>
     
     <div class="card">
         <div class="card-body">
 
-            @for (suscripcion of suscripcionesFiltradasList; track $index) {
+            @for (anuncio of anuncioFiltradosList; track $index) {
 
                 <br>
-                <h4>Revista Suscrita: {{suscripcion.idAnuncio}}</h4>
-                <p>Fecha: {{suscripcion.fechaInicio | date:'yyyy-MM-dd' }}</p>
-                <p>Usuario que se suscribió: {{suscripcion.nombreUsuario}}</p>
-                
+                <h4>Anuncio: {{anuncio.idAnuncio}}</h4>
+                <p>Fecha: {{anuncio.fechaInicio | date:'yyyy-MM-dd' }}</p>
+                <p>Usuario que compró el anuncio: {{anuncio.usuarioQueComproAnuncio}}</p>
+                <p>Tipo: {{anuncio.tipo}}</p>
+                <p>Vigencia: {{anuncio.vigenciaString}} días</p>
                    
             }
 

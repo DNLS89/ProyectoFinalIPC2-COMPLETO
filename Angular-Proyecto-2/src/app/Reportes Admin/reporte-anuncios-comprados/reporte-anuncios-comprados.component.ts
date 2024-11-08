@@ -18,6 +18,17 @@ export class ReporteAnunciosCompradosComponent {
   constructor(private reportesAdminService: ReportesAdminService) {}
 
   anunciosList: Anuncio[] = [];
+
+  tipo: string = "";
+  vigencia: string = "";
+
+  onSelectedType(value:string): void {
+    this.tipo = value;    
+  }
+
+  onSelectedVigencia(value:string): void {
+    this.vigencia = value;    
+  }
   
 
   ngOnInit(): void {
@@ -28,8 +39,9 @@ export class ReporteAnunciosCompradosComponent {
       next: (listado: Anuncio[]) => {
         console.log("Todo fue bien, procesando response...");
         this.anunciosList = listado;
+        console.log(this.anunciosList);
         /* console.log(this.suscripcionesList); */
-        this.suscripcionesFiltradasList = listado;
+        this.anuncioFiltradosList = listado;
         this.extractUniqueEntities();
       },
       error: (error: any) => {
@@ -58,37 +70,36 @@ export class ReporteAnunciosCompradosComponent {
   //LO SIGUIENTE FILTRA EN EL EXPLORADOR DE REVISTAS HAY QUE CAMBIARLO
 
     //LO SIGUIENTE CUMPLE LA FUNCIÓN DE FILTRAR SEGÚN TAGS Y CATEGORIAS
-    _filteredNumeroRevista : string = "";
+    /* _filteredNumeroRevista : string = ""; */
     fecha!: Date;
-    _fechaInicio: Date | string = "mm/dd/yyyy";
+    _fechaInicio: Date | string = "undefined";
     fechaInicio !: Date;
-    _fechaFin: Date | string = "mm/dd/yyyy";
+    _fechaFin: Date | string = "undefined";
     fechaFin!: Date;
-    suscripcionesFiltradasList: Anuncio[] = [];
+    anuncioFiltradosList: Anuncio[] = [];
   
-    onSelectedNumeroRevista(value : string): void {
+    /* onSelectedNumeroRevista(value : string): void {
       this._filteredNumeroRevista = value;
       console.log("Valor seleccionado: " + this._filteredNumeroRevista);
-    }
+    } */
   
     filtrar () {
-      this.suscripcionesFiltradasList = this.filterRevistas();
+
+      if (this._fechaInicio == "" && this._fechaFin == "") {
+        this._fechaInicio = "undefined";
+        this._fechaFin = "undefined";
+      }
+
+      this.anuncioFiltradosList = this.filterRevistas();
     }
   
   
     filterRevistas() {
-      if (this.anunciosList.length === 0 || (this._filteredNumeroRevista === "" && this._fechaInicio === "mm/dd/yyyy" && this._fechaFin === "mm/dd/yyyy")) {
+      if (this.anunciosList.length === 0 || (this.tipo === "" && this.vigencia === "" && this._fechaInicio === "undefined" && this._fechaFin === "undefined")) {
         //No filtra
         return this.anunciosList;
   
-      } else if (this._filteredNumeroRevista !== "" && this._fechaInicio === "mm/dd/yyyy" && this._fechaFin === "mm/dd/yyyy") {
-        //Filtra SOLO en base numero de revista
-        return this.anunciosList.filter((anuncio) =>
-          {
-            return anuncio.idAnuncioString === (this._filteredNumeroRevista);
-          })
-  
-      } else if ((this._fechaInicio != null && this._fechaFin != null) && this._filteredNumeroRevista ==="") {
+      } else if ((this._fechaInicio != null && this._fechaFin != null) && this.tipo ==="" && this.vigencia === "") {
         return this.anunciosList.filter((anuncio) =>
           {
             //FILTRA SOLO EN BASE A LAS FECHAS
@@ -99,21 +110,66 @@ export class ReporteAnunciosCompradosComponent {
 
             return fecha >= fechaInicio && fecha <= fechaFin;
           })
+      } else if (this.tipo !== "" && this._fechaInicio === "undefined" && this._fechaFin === "undefined" && this.vigencia === "") {
+        //Filtra SOLO en base al tipo
+        return this.anunciosList.filter((anuncio) =>
+          {
+            return anuncio.tipo === (this.tipo);
+          })
+  
+      } else if (this.vigencia !== "" && this._fechaInicio === "undefined" && this._fechaFin === "undefined" && this.tipo === "") {
+        //Filtra SOLO en base a la vigencia
+        return this.anunciosList.filter((anuncio) =>
+          {
+            return anuncio.vigenciaString === (this.vigencia);
+          })
+  
+      } else if ((this._fechaInicio != null && this._fechaFin != null) && this.tipo !=="" && this.vigencia === "") {
+        //Filtra en base FECHAS y TIPO
+        return this.anunciosList.filter((anuncio) =>
+          {
+            const fecha = new Date(anuncio.fechaInicio);
+            const fechaInicio = new Date (this._fechaInicio);
+            const fechaFin = new Date (this._fechaFin);
+
+            return anuncio.tipo === (this.tipo) && (fecha >= fechaInicio && fecha <= fechaFin);
+          })
+  
+      } else if ((this._fechaInicio != null && this._fechaFin != null) && this.tipo ==="" && this.vigencia !== "") {
+        //Filtra en base FECHAS y VIGENCIA
+        return this.anunciosList.filter((anuncio) =>
+          {
+            const fecha = new Date(anuncio.fechaInicio);
+            const fechaInicio = new Date (this._fechaInicio);
+            const fechaFin = new Date (this._fechaFin);
+
+            return anuncio.vigenciaString === (this.vigencia) && (fecha >= fechaInicio && fecha <= fechaFin);
+          })
+  
+      } else if (this._fechaInicio === "undefined" && this._fechaFin === "undefined" && this.tipo !== "" && this.vigencia !== "") {
+        //Filtra en base TIPO y VIGENCIA
+        return this.anunciosList.filter((anuncio) =>
+          {
+            return anuncio.vigenciaString === (this.vigencia) && anuncio.tipo === (this.tipo);
+          })
+  
+      } else if (this._fechaInicio != null && this._fechaFin != null && this.tipo !== "" && this.vigencia !== "") {
+        //Filtra en base a TODO
+        return this.anunciosList.filter((anuncio) =>
+          {
+            const fecha = new Date(anuncio.fechaInicio);
+            const fechaInicio = new Date (this._fechaInicio);
+            const fechaFin = new Date (this._fechaFin);
+
+            return anuncio.vigenciaString === (this.vigencia) && anuncio.tipo === (this.tipo) && (fecha >= fechaInicio && fecha <= fechaFin);
+          })
+  
       } else {
         //Filtra en BASE A FECHAS Y NUMERO DE REVISTA
         return this.anunciosList.filter((anuncio) =>
         {
-          const fecha = new Date(anuncio.fechaInicio);
-          const fechaInicio = new Date (this._fechaInicio);
-          const fechaFin = new Date (this._fechaFin);
-
-          return (fecha >= fechaInicio && fecha <= fechaFin) && anuncio.idAnuncioString === (this._filteredNumeroRevista);
-            /* return anuncio.categoria === this._filteredNumeroRevista && anuncio.tagsString === this._filteredTags; */
+          return this.anunciosList;
         })
       }
-
-
-      
     }
-
 }

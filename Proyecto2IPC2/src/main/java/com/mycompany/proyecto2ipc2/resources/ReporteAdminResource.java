@@ -1,5 +1,6 @@
 package com.mycompany.proyecto2ipc2.resources;
 
+import Anuncios.Anuncio;
 import Principales.GestorReportes;
 import Principales.MotorPrograma;
 import Principales.Revista;
@@ -71,7 +72,7 @@ public class ReporteAdminResource {
         
     }
     
-    //OBTENER SUSCRIPCIONES
+    //OBTENER COmentarios
     @GET
     @Path("/extraerComentarios/{nombreUsuario}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -119,6 +120,30 @@ public class ReporteAdminResource {
             //System.out.println("Hay revistas");
             motorPrograma.closeConnection();
             return Response.ok(revistasConComentarios).build();
+        }
+        
+        motorPrograma.closeConnection();
+        return Response.status(Response.Status.NOT_FOUND).build();
+        
+    }
+    
+    //OBTENER ANUNCIOS
+    @GET
+    @Path("/extraerAnuncios/{nombreUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerAnuncios(@PathParam("nombreUsuario") String nombreUsuario) {
+        
+        System.out.println("EXTRAYENDO ANUNCIOS");
+        MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
+        GestorReportes gestorReportes = motorPrograma.getGestorReportes();
+        
+        
+        ArrayList<Anuncio> anuncios = gestorReportes.extraerAnunciosReporteAdmin(nombreUsuario);
+        
+        if (anuncios != null) {
+            //System.out.println("Hay revistas");
+            motorPrograma.closeConnection();
+            return Response.ok(anuncios).build();
         }
         
         motorPrograma.closeConnection();

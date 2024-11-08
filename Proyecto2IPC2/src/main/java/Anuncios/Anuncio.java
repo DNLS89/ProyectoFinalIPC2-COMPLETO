@@ -14,9 +14,11 @@ public class Anuncio {
     private java.sql.Date fechaFin;
     private String nombreUsuario;
     private int idAnuncio;
+    private String idAnuncioString;
     private int costoAnuncio;
     private BigDecimal costoAnuncioDecimal;
     private int costoOcultacion;
+    private String usuarioQueComproAnuncio;
 
     public Anuncio() {
     }
@@ -111,9 +113,22 @@ public class Anuncio {
     public void setCostoAnuncioDecimal(BigDecimal costoAnuncioDecimal) {
         this.costoAnuncioDecimal = costoAnuncioDecimal;
     }
-    
-    
-    
+
+    public String getUsuarioQueComproAnuncio() {
+        return usuarioQueComproAnuncio;
+    }
+
+    public void setUsuarioQueComproAnuncio(String usuarioQueComproAnuncio) {
+        this.usuarioQueComproAnuncio = usuarioQueComproAnuncio;
+    }
+
+    public String getIdAnuncioString() {
+        return idAnuncioString;
+    }
+
+    public void setIdAnuncioString(String idAnuncioString) {
+        this.idAnuncioString = idAnuncioString;
+    }
     
     public int getEstado() {
         return estado;

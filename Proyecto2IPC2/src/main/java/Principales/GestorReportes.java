@@ -394,6 +394,7 @@ public class GestorReportes {
         return null;
     }
 
+    //REPORTES ADMIN
     public ArrayList<Revista> extraerSuscripcionesReporteAdmin(String nombrePublicador) {
         String comandoRevistasSuscritas = "SELECT s.*, p.nombre_usuario FROM suscribir s JOIN publicar p ON s.numero_revista = p.numero_revista ORDER BY numero_revista;";
         ArrayList<Revista> meGustas = new ArrayList<>();
@@ -617,6 +618,55 @@ public class GestorReportes {
 
         } catch (SQLException e) {
             System.out.println("Error al extraer OCURRENCIAS COMENTARIOS REPORTE ADMIN");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    public ArrayList<Anuncio> extraerAnunciosReporteAdmin(String nombrePublicador) {
+        String comandoAnuncios = "SELECT a.*, p.* FROM anuncio a JOIN anunciar1 p ON a.id_anuncio = p.id_anuncio ORDER BY a.id_anuncio;";
+        ArrayList<Anuncio> anuncios = new ArrayList<>();
+        
+        try {
+
+            PreparedStatement comando = connection.prepareStatement(comandoAnuncios);
+            ResultSet resultSet = comando.executeQuery();
+
+
+            while (resultSet.next()) {
+                
+                Anuncio anuncio = new Anuncio();
+                
+                int idAnuncio = resultSet.getInt("id_anuncio");
+                anuncio.setIdAnuncio(idAnuncio);
+                
+                String tipo = resultSet.getString("tipo_anuncio");
+                anuncio.setTipo(tipo);
+                
+                String vigencia = resultSet.getString("vigencia_anuncio");
+                anuncio.setVigenciaString(vigencia);
+
+                String usuarioQueComproAnuncio = resultSet.getString("nombre_usuario");
+                anuncio.setUsuarioQueComproAnuncio(usuarioQueComproAnuncio);
+                
+                String idAnuncioString = resultSet.getString("id_anuncio");
+                anuncio.setIdAnuncioString(idAnuncioString);
+
+                
+                Date fechaProceso = resultSet.getDate("fecha_creacion");
+                anuncio.setFechaInicio(fechaProceso);
+
+                anuncios.add(anuncio);
+                //String nombreAutor = resultSet.getString("nombre_usuario");
+            }
+            resultSet.close();
+            comando.close();
+
+            return anuncios;
+
+        } catch (SQLException e) {
+            System.out.println("Error al extraer anuncios");
             e.printStackTrace();
         }
 
