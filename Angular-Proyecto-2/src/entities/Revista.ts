@@ -14,6 +14,7 @@ export interface Revista {
     tagsString: any;
     tagsArreglo: string[],
     costoSuscripcion: number,
+    costo: number;
     meGustas: number,
     comentario: string,
     usuarioQueComento: string,

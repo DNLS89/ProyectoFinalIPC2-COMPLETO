@@ -24,11 +24,16 @@ export class GestionRevistaService {
     + localStorage.getItem('nombreUsuario') + "/" + archivoRevista + "/" + descripcion + "/" + categoria + "/" + etiquetas + "/" + fechaPublicacion, {});
   }
 
+  public definirPrecioRevista(numeroRevista: string, precio: number) {
+    return this.httpClient.post<any>(this.restConstants.getApiURL() + 'gestionRevista/definirPrecioRevista/' 
+    + localStorage.getItem("nombreUsuario") + "/" + numeroRevista + "/" + precio, {});
+  }
 
-  public suscribir(numeroRevista: string, fechaSuscripcion: Date): Observable<any> {
+
+  public suscribir(numeroRevista: string, fechaSuscripcion: Date, costo : number): Observable<any> {
 
     return this.httpClient.post<any>(this.restConstants.getApiURL() + 'gestionRevista/suscribir/' 
-    + localStorage.getItem("nombreUsuario") + "/" + numeroRevista + "/" + fechaSuscripcion, {});
+    + localStorage.getItem("nombreUsuario") + "/" + numeroRevista + "/" + fechaSuscripcion + "/" + costo, {});
   }
 
   public comentar(numeroRevista: string, comentario: string) {

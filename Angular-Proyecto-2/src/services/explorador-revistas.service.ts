@@ -18,6 +18,10 @@ export class ExploradorRevistasService {
     return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'explorarRevistas/' + nombreUsuario );
   }
 
+  public obtenerTodasRevistasSinPrecio(nombreUsuario : string): Observable<Revista[]> {
+    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'explorarRevistas/sinPrecio/' + nombreUsuario );
+  }
+
   public obtenerRevistasPublicadas(): Observable<Revista[]> {
     return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'explorarRevistas/revistasPublicadas/' + localStorage.getItem("nombreUsuario"));
   }

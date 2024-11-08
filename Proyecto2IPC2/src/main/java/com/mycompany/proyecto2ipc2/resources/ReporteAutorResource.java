@@ -43,34 +43,6 @@ public class ReporteAutorResource {
         
     }
     
-//    //OBTENER SUSCRIPCIONES A REVISTAS
-//    @GET
-//    @Path("/extraerSuscripciones/{nombreUsuario}/{fechaInicio}/{fechaFin}/{numeroRevista}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response obtenerSuscripciones(@PathParam("nombreUsuario") String nombreUsuario, @PathParam("fechaInicio") String fechaInicio,
-//            @PathParam("fechaFin") String fechaFin, @PathParam("numeroRevista") int numeroRevista) {
-//        
-//        System.out.println("SUSCRIPCIONES datos ingresado: ");
-//        System.out.println(nombreUsuario + " " + numeroRevista + " " + " fechaIn:" + fechaInicio + " fechFin:" + fechaFin);
-//        MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
-//        GestorReportes gestorReportes = motorPrograma.getGestorReportes();
-//        
-//        
-//        ArrayList<ArrayList<String>> suscripcionesArray = gestorReportes.extraerSuscripciones(nombreUsuario, numeroRevista, 
-//                motorPrograma.formatoFechaAdecuado(fechaInicio), motorPrograma.formatoFechaAdecuado(fechaFin));
-//        
-//        return Response.ok(suscripcionesArray).build();
-////        if (suscripcionesArray != null) {
-////            //System.out.println("Hay revistas");
-////            motorPrograma.closeConnection();
-////            return Response.ok(suscripcionesArray).build();
-////        }
-////        
-////        motorPrograma.closeConnection();
-////        return Response.status(Response.Status.NOT_FOUND).build();
-//        
-//    }
-    
     //OBTENER SUSCRIPCIONES A REVISTAS
     @GET
     @Path("/extraerSuscripciones/{nombreUsuario}")
@@ -142,6 +114,30 @@ public class ReporteAutorResource {
             //System.out.println("Hay revistas");
             motorPrograma.closeConnection();
             return Response.ok(revistasConMeGustas).build();
+        }
+        
+        motorPrograma.closeConnection();
+        return Response.status(Response.Status.NOT_FOUND).build();
+        
+    }
+    
+    @GET
+    @Path("/extraerPagos/{nombreUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerRevistasConPagos(@PathParam("nombreUsuario") String nombreUsuario) {
+        
+        
+        System.out.println("Extrayendo PAGOS");
+        MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
+        GestorReportes gestorReportes = motorPrograma.getGestorReportes();
+        
+        
+        ArrayList<Revista> revistasConPagos = gestorReportes.extraerPagosReporteAutor(nombreUsuario);
+        
+        if (revistasConPagos != null) {
+            //System.out.println("Hay revistas");
+            motorPrograma.closeConnection();
+            return Response.ok(revistasConPagos).build();
         }
         
         motorPrograma.closeConnection();

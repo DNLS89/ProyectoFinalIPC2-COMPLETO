@@ -34,6 +34,8 @@
     </form>
     <br>
     <br>
+    <h3>Usted tiene "{{this.creditosCuenta}}" créditos disponibles</h3>
+    <br>
 
     <h2>REVISTAS REGISTRADAS  </h2>
 
@@ -47,7 +49,7 @@
 
                 @if (!revista.usuarioSuscrito) {
                     @if (revista.estadoSuscripcion) {
-                        <app-suscribir [revista]="revista"></app-suscribir>
+                        <app-suscribir [revista]="revista" [creditos]="creditosCuenta" (valueChange)="updateParentValue($event)"></app-suscribir>
                     } @else {
                         <p>EL AUTOR DESHABILITÓ LAS SUSCRIPCIONES</p>
                     }

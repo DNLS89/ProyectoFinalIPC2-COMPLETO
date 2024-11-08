@@ -1,0 +1,12 @@
+
+<div *ngIf="mostrar">
+<form [formGroup]="definirPrecioForm">
+    <p>
+      <label>Costo Revista: </label>
+      <input formControlName="costoRevista" class="form-control" type="text" />
+    </p>
+    <button [disabled]="definirPrecioForm.invalid" (click)="registrarCosto()" class="btn btn-success" type="submit">
+      Asignar Precio
+    </button>
+  </form>
+</div>

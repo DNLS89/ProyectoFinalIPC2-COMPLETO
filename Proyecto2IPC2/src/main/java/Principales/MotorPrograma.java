@@ -5,6 +5,7 @@ import Proceso.Reaccion;
 import Proceso.Suscripcion;
 import Usuarios.Usuario;
 import jakarta.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -247,12 +248,12 @@ public class MotorPrograma {
         publicacion.publicar(archivoRevista, descripcion, categoria, tags);
     }
 
-    public boolean suscribir(int numeroRevista, String fechaSuscripcion) {
+    public boolean suscribir(int numeroRevista, String fechaSuscripcion, BigDecimal costoSuscripcion, Tienda tienda) {
         Suscripcion suscripcion = new Suscripcion(usuario, connection);
         Revista revista = new Revista(numeroRevista);
         suscripcion.setRevista(revista);
 
-        if (suscripcion.suscribir(formatoFechaAdecuado(fechaSuscripcion))) {
+        if (suscripcion.suscribir(formatoFechaAdecuado(fechaSuscripcion), costoSuscripcion, tienda)) {
             return true;
         } else {
             return false;
@@ -266,6 +267,29 @@ public class MotorPrograma {
         Revista revista = new Revista(numeroRevista);
         reaccion.darMeGusta(revista/*, numeroMeGustas*/);
 
+    }
+    
+    public boolean definirPrecioRevista(int numeroRevista, int costoRevista) {
+        
+        String comandoString = "UPDATE revista set costo = ?, estado_costodefinido = 1 WHERE numero_revista LIKE ?;";
+        try {
+            
+            PreparedStatement comando = connection.prepareStatement(comandoString);
+            comando.setInt(1, costoRevista);
+            comando.setInt(2, numeroRevista);
+            
+//            Statement statementInsert = connection.createStatement();
+//            statementInsert = connection.createStatement();
+//            statementInsert.executeUpdate(comando);
+            comando.execute();
+            comando.close();
+            
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error definiendo precio revista");
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean comentar(int numeroRevista, String comentario) {
@@ -335,41 +359,42 @@ public class MotorPrograma {
         }
         return false;
     }
-
-    private int obtenerTotalRevistasCreadas(String comando) {
-        int totalRevistas = 0;
-
-        //
+    
+    public boolean hayRevistasCreadas2() {
+        String comandoNombre = "SELECT * FROM publicar;";
         try {
 
-            PreparedStatement comandoSQL = connection.prepareStatement(comando);
-            ResultSet resultSet = comandoSQL.executeQuery();
-            while (resultSet.next()) {
-                totalRevistas++;
+            PreparedStatement comando = connection.prepareStatement(comandoNombre);
+            ResultSet resultSet = comando.executeQuery();
+
+            if (resultSet.next()) {
+                return true;
+
             }
             resultSet.close();
-
-            comandoSQL.close();
-
+            comando.close();
 //            Statement statementInsert = connection.createStatement();
-//            ResultSet resultSet = statementInsert.executeQuery(comando);
-//            while (resultSet.next()) {
-//                totalRevistas++;
+//            ResultSet resultSet = statementInsert.executeQuery(comandoNombre);
+//            if (resultSet.next()) {
+//                obtenerRevistas();
+//                return true;
+//
 //            }
         } catch (SQLException e) {
-            System.out.println("Error al contar total de revistas");
+            System.out.println("Error al verificar si hay revistas publicadas");
             e.printStackTrace();
         }
-
-        return totalRevistas;
+        return false;
     }
-
-    public void obtenerRevistas() {
+    
+    public ArrayList<Revista> obtenerRevistas2() {
 
         this.revistas = new Revista[obtenerTotalRevistasCreadas("SELECT * FROM publicar;")];
+        
+        ArrayList<Revista> revistasSinPrecio = new ArrayList<>();
 
-        String comandoNombre = "select * from revista LEFT JOIN publicar ON revista.numero_revista = publicar.numero_revista;";
-
+        String comandoNombre = "select * from revista LEFT JOIN publicar ON revista.numero_revista = publicar.numero_revista WHERE estado_costodefinido = 0;";
+        
         //
         try {
 
@@ -407,7 +432,100 @@ public class MotorPrograma {
                 }
                 int meGustas = resultSet.getInt("me_gustas");
 
-                revistas[contador] = new Revista(numeroRevista, estadoSuscripcion, estadoComentarios, estadoMeGustas, descripcion, nombreAutor, categoria, etiquetas, meGustas);
+                revistasSinPrecio.add(new Revista(numeroRevista, estadoSuscripcion, estadoComentarios, estadoMeGustas, descripcion, nombreAutor, categoria, etiquetas, meGustas));
+                contador++;
+            }
+            resultSet.close();
+            comando.close();
+            
+            return revistasSinPrecio;
+
+        } catch (SQLException e) {
+            System.out.println("Error al extraer las revistas");
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    private int obtenerTotalRevistasCreadas(String comando) {
+        int totalRevistas = 0;
+
+        //
+        try {
+
+            PreparedStatement comandoSQL = connection.prepareStatement(comando);
+            ResultSet resultSet = comandoSQL.executeQuery();
+            while (resultSet.next()) {
+                totalRevistas++;
+            }
+            resultSet.close();
+
+            comandoSQL.close();
+
+//            Statement statementInsert = connection.createStatement();
+//            ResultSet resultSet = statementInsert.executeQuery(comando);
+//            while (resultSet.next()) {
+//                totalRevistas++;
+//            }
+        } catch (SQLException e) {
+            System.out.println("Error al contar total de revistas");
+            e.printStackTrace();
+        }
+
+        return totalRevistas;
+    }
+
+    public void obtenerRevistas() {
+
+        this.revistas = new Revista[obtenerTotalRevistasCreadas("select * from revista LEFT JOIN publicar ON revista.numero_revista = publicar.numero_revista WHERE estado_costodefinido = 1;")];
+
+        String comandoNombre = "select * from revista LEFT JOIN publicar ON revista.numero_revista = publicar.numero_revista WHERE estado_costodefinido = 1;";
+
+        //
+        try {
+
+            PreparedStatement comando = connection.prepareStatement(comandoNombre);
+            ResultSet resultSet = comando.executeQuery();
+
+            int contador = 0;
+
+            while (resultSet.next()) {
+                Revista revista = null;
+                int numeroRevista = resultSet.getInt("numero_revista");
+                int costoRevsita = resultSet.getInt("costo");
+                String descripcion = resultSet.getString("descripcion");
+                String nombreAutor = resultSet.getString("nombre_usuario");
+                String categoria = resultSet.getString("categoria");
+                String etiquetas = resultSet.getString("etiquetas");
+                boolean estadoSuscripcion;
+                boolean estadoComentarios;
+                boolean estadoMeGustas;
+                int intEstadoSuscripcion = resultSet.getInt("estado_suscripcion");
+                if (intEstadoSuscripcion == 0) {
+                    estadoSuscripcion = false;
+                } else {
+                    estadoSuscripcion = true;
+                }
+                int intEstadoComentarios = resultSet.getInt("estado_comentarios");
+                if (intEstadoComentarios == 0) {
+                    estadoComentarios = false;
+                } else {
+                    estadoComentarios = true;
+                }
+                int intEstadoMeGustas = resultSet.getInt("estado_megustas");
+                if (intEstadoMeGustas == 0) {
+                    estadoMeGustas = false;
+                } else {
+                    estadoMeGustas = true;
+                }
+                int meGustas = resultSet.getInt("me_gustas");
+                
+                revista = new Revista(numeroRevista, estadoSuscripcion, estadoComentarios, estadoMeGustas, descripcion, nombreAutor, categoria, etiquetas, meGustas);
+                revista.setCostoSuscripcion(costoRevsita);
+
+                revistas[contador] = revista;
                 contador++;
             }
             resultSet.close();
@@ -487,8 +605,19 @@ public class MotorPrograma {
     }
 
     private void obtenerEstadoSuscripcion() {
+        System.out.println("PRUEBA1");
+        for (Revista revista : revistas) {
+            System.out.println(revista.getNumeroRevista());
+        }
+        System.out.println("PRUEBA2");
 
         for (Revista revista : revistas) {
+            try {
+                revista.getNumeroRevista();
+            } catch (Exception e) {
+                continue;
+            }
+            
             String comandoNombre = "select * from suscribir WHERE nombre_usuario LIKE \"" + usuario.getNombreUsuario() + "\" AND numero_revista =" + revista.getNumeroRevista() + ";";
             try {
                 Statement statementInsert = connection.createStatement();

@@ -1,1 +1,50 @@
-<p>reporte-pagos works!</p>
+<br>
+    <h3>Filtrar Por Revistas</h3>
+
+    <form required>
+        <p><label></label>
+            <select class="form-control" #numeroRevista (change)="onSelectedNumeroRevista(numeroRevista.value)">
+                <option value="">--</option>
+                
+                <option *ngFor="let item of valorUnicoList; let i = index" [value]="item.numeroRevista">
+                    <span> {{item.numeroRevista}}</span>
+                </option>
+                                
+            </select>
+        </p>
+        <button class="btn btn-success" type="button" (click)="filtrar()">Filtrar</button>
+    </form>
+
+    
+    <br>
+    <br>
+
+    <h2>Pagos en Revistas: </h2>
+    
+    
+
+            @for (ocurrencia of pagosFiltradosList; ; track $index) {
+                <div class="card">
+                    <div class="card-body">
+                <h4>Revista: {{ocurrencia.numeroRevista}}</h4>
+                @for (meGusta of pagosList; track $index) {
+
+                    @if (ocurrencia.numeroRevista == meGusta.numeroRevista) {
+                        <br>
+                        <!-- <h4>Revista reaccionada: {{meGusta.numeroRevista}}</h4> -->
+                        <p>Fecha pago: {{meGusta.fechaProceso | date:'yyyy-MM-dd' }}-------Monto: {{meGusta.costoSuscripcion}}</p>
+                        <p></p>
+                    }   
+                }
+                    </div>
+                </div>
+                <br>
+    
+            }
+
+
+        
+    
+    <br>
+    <br>
+    <button class="btn btn-success" onclick="location.href='report1'"> Generar Reporte </button>

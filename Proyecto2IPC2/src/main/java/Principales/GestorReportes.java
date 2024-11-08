@@ -54,57 +54,6 @@ public class GestorReportes {
         this.anuncios = anuncios;
     }
 
-//    public ArrayList<Revista> extraeRevistasConComentarios(String nombrePublicador) {
-//        String comandoRevistasSuscritas = "select * from comentar LEFT JOIN publicar ON comentar.numero_revista = publicar.numero_revista WHERE publicar.nombre_usuario LIKE ?;";
-//        ArrayList<Revista> revistasConComentarios = new ArrayList<>();
-//        //
-//        int contadorNumeroRevista = -1;
-//        try {
-//
-//            PreparedStatement comando = connection.prepareStatement(comandoRevistasSuscritas);
-//            comando.setString(1, nombrePublicador);
-//            ResultSet resultSet = comando.executeQuery();
-//            
-//            Revista revista = new Revista();
-//
-//            while (resultSet.next()) {
-//
-//                int numeroRevista = resultSet.getInt("numero_revista");
-//                
-//                if (contadorNumeroRevista != numeroRevista) {
-//                    revista = new Revista();
-//                    
-//                    contadorNumeroRevista = numeroRevista;
-//
-//                    revista.setNumeroRevista(numeroRevista);
-//                    
-//                    String usuarioQueComento = resultSet.getString("comentar.nombre_usuario");
-//                    revista.setUsuarioQueComento(usuarioQueComento);
-//
-//                    String comentario = resultSet.getString("comentario");
-//                    revista.getComentarios().add(comentario);
-//                    
-//                    revistasConComentarios.add(revista);
-//
-//                } else {
-//                    String comentario = resultSet.getString("comentario");
-//                    revista.getComentarios().add(comentario);
-//                }
-//                //String nombreAutor = resultSet.getString("nombre_usuario");
-//
-//            }
-//            resultSet.close();
-//            comando.close();
-//
-//            return revistasConComentarios;
-//
-//        } catch (SQLException e) {
-//            System.out.println("Error al extraer las revistas con comentarios");
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
     public ArrayList<Revista> extraeRevistasConComentarios(String nombrePublicador) {
         String comandoRevistasSuscritas = "select * from comentar LEFT JOIN publicar ON comentar.numero_revista = publicar.numero_revista WHERE publicar.nombre_usuario LIKE ?;";
         ArrayList<Revista> revistasConComentarios = new ArrayList<>();
@@ -196,48 +145,7 @@ public class GestorReportes {
     }
     
     
-    
-//    public ArrayList<ArrayList<String>> extraerSuscripciones(String nombrePublicador, int numeroRevista, java.sql.Date fechaInicio, java.sql.Date fechaFin) {
-//        String comandoRevistasSuscritas = "select * from comentar LEFT JOIN publicar ON comentar.numero_revista = publicar.numero_revista WHERE publicar.nombre_usuario LIKE ?;";
-//        ArrayList<ArrayList<String>> suscripciones = new ArrayList<>();
-//        
-//        
-//        System.out.println("ELementos que entraron:");
-//        System.out.println(nombrePublicador + " " + numeroRevista + " " + " fechaIn:" + fechaInicio + " fechFin:" + fechaFin);
-//        
-//        try {
-//
-//            PreparedStatement comando = connection.prepareStatement(comandoRevistasSuscritas);
-//            comando.setString(1, nombrePublicador);
-//            ResultSet resultSet = comando.executeQuery();
-//
-//
-//            while (resultSet.next()) {
-//                ArrayList<String> infoSuscripcion = new ArrayList<>();
-//                
-//
-//                String usuarioQueDioMeGusta = resultSet.getString("nombre_usuario");
-//                
-//                String numeroRevistaString = resultSet.getString("numero_revista");
-//
-//                
-//                Date fechaProceso = resultSet.getDate("fecha_creacion");
-//
-//                suscripciones.add(infoSuscripcion);
-//                //String nombreAutor = resultSet.getString("nombre_usuario");
-//            }
-//            resultSet.close();
-//            comando.close();
-//
-//            return suscripciones;
-//
-//        } catch (SQLException e) {
-//            System.out.println("Error al extraer las revistas con me gustas");
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
+ 
     
     public ArrayList<Revista> extraerSuscripciones(String nombrePublicador) {
         String comandoRevistasSuscritas = "SELECT s.*, p.nombre_usuario FROM suscribir s JOIN publicar p ON s.numero_revista = p.numero_revista WHERE p.nombre_usuario LIKE ? ORDER BY numero_revista;";
@@ -718,6 +626,54 @@ public class GestorReportes {
 
         } catch (SQLException e) {
             System.out.println("Error al extraer anuncios mostrados");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    public ArrayList<Revista> extraerPagosReporteAutor(String nombrePublicador) {
+        String comandoRevistasSuscritas = "select * from pagarsuscripcion ORDER BY numero_revista ASC;";
+        ArrayList<Revista> pagos = new ArrayList<>();
+        
+        try {
+
+            PreparedStatement comando = connection.prepareStatement(comandoRevistasSuscritas);
+            //comando.setString(1, nombrePublicador);
+            ResultSet resultSet = comando.executeQuery();
+
+
+            while (resultSet.next()) {
+                int numeroRevista = resultSet.getInt("numero_revista");
+                
+                
+                Revista revista = new Revista(numeroRevista);
+
+                String usuarioQueDioMeGusta = resultSet.getString("nombre_usuario");
+                revista.setUsuarioQueDioMeGusta(usuarioQueDioMeGusta);
+                
+                String numeroRevistaString = resultSet.getString("numero_revista");
+                revista.setNumeroRevistaString(numeroRevistaString);
+
+                
+                Date fechaProceso = resultSet.getDate("fecha_suscripcion");
+                revista.setFechaProceso(fechaProceso);
+                
+                int costoSuscripcion = resultSet.getInt("costo");
+                revista.setCostoSuscripcion(costoSuscripcion);
+                
+                
+
+                pagos.add(revista);
+                //String nombreAutor = resultSet.getString("nombre_usuario");
+            }
+            resultSet.close();
+            comando.close();
+
+            return pagos;
+
+        } catch (SQLException e) {
+            System.out.println("Error al extraer suscripciones");
             e.printStackTrace();
         }
 

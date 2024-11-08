@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Revista } from '../../../entities/Revista';
 import { Router } from '@angular/router';
 import { CommonModule, NgClass, NgIf } from '@angular/common';
@@ -20,6 +20,8 @@ export class SuscribirComponent {
 
   @Input({required: true})
   revista!: Revista;
+  @Input() creditos!: number;
+  @Output() valueChange = new EventEmitter<number>();
 
   constructor(
     private gestionRevistaService: GestionRevistaService, 
@@ -28,9 +30,16 @@ export class SuscribirComponent {
   
 
   suscribir() : void {
+
+    if (this.creditos < this.revista.costoSuscripcion) {
+      alert("No se tienen suficientes créditos");
+    } else {
+      alert("SUFICIENTES CRÉDITOS")
+      this.valueChange.emit(this.creditos - this.revista.costoSuscripcion); 
+      this.ocultar();
     this.gestionRevistaService
     .suscribir
-    (this.revista.numeroRevista, this.fechaSuscripcion)
+    (this.revista.numeroRevista, this.fechaSuscripcion, this.revista.costoSuscripcion)
     .subscribe({
       next: () => {
         console.log("Todo fue bien, procesando response...");
@@ -45,6 +54,7 @@ export class SuscribirComponent {
         this.router.navigate(['/menu/explorarRevistas']);
       }
     });
+    }
 
   }
 

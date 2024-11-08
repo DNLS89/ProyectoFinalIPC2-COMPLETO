@@ -31,6 +31,7 @@ import { ReporteComentariosComponent } from './Reportes Autor/reporte-comentario
 import { ReporteSuscripcionesComponent } from './Reportes Autor/reporte-suscripciones/reporte-suscripciones.component';
 import { ReporteRevistasMasGustadasComponent } from './Reportes Autor/reporte-revistas-mas-gustadas/reporte-revistas-mas-gustadas.component';
 import { ReportePagosComponent } from './Reportes Autor/reporte-pagos/reporte-pagos.component';
+import { AsignarPrecioRevistaComponent } from './Explorador Revistas/asignar-precio-revista/asignar-precio-revista.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -44,6 +45,7 @@ export const routes: Routes = [
             { path: 'revistasPublicadas', component: RevistasPublicadasComponent},
             { path: 'revistasSuscritas', component: RevistasSuscritasComponent},
             { path: 'verRevistaSuscrita/:numero', component: PruebaRevistaCompletaComponent},
+            { path: 'asignarPrecioRevista', component: AsignarPrecioRevistaComponent},
             { path: 'reportesAdmin', component: GestorReportesAdminComponent,
                 children: [
                     { path: 'ganancias', component: ReporteGananciasComponent},

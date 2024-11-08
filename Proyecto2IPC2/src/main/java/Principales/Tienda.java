@@ -421,7 +421,7 @@ public class Tienda {
         return fechaActual.after(anuncio.getFechaInicio()) && fechaActual.before(anuncio.getFechaFin());
     }
 
-    private boolean creditosSuficientes(BigDecimal totalDescontar) {
+    public boolean creditosSuficientes(BigDecimal totalDescontar) {
 
         extraerCreditos();
         if (usuario.getCartera().compareTo(totalDescontar) >= 0) {

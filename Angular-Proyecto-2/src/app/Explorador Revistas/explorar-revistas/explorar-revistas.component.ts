@@ -8,6 +8,8 @@ import { Revista } from '../../../entities/Revista';
 import { ExploradorRevistasService } from '../../../services/explorador-revistas.service';
 import { PerfilAutorComponent } from '../../Cuenta/perfil-autor/perfil-autor.component';
 import { SuscribirComponent } from '../../Gestion Revistas/suscribir/suscribir.component';
+import { TiendaService } from '../../../services/tienda-service';
+import { Usuario } from '../../../entities/Usuario';
 
 
 @Component({
@@ -24,7 +26,11 @@ export class ExplorarRevistasComponent {
   revistasList: Revista[] = [];
   
 
-  constructor(private exploradorRevistasService: ExploradorRevistasService) {}
+  constructor(private exploradorRevistasService: ExploradorRevistasService, private tiendaService: TiendaService)
+   {}
+
+   perfilUsuario!: Usuario;
+  creditosCuenta!: number;
 
   ngOnInit(): void {
     // la llamada al servicio
@@ -41,6 +47,22 @@ export class ExplorarRevistasComponent {
         console.log(error);
       }
     });
+
+
+    this.tiendaService
+      .obtenerCreditos()
+     .subscribe({
+       next: (usuario: any) => {
+         console.log("Todo fue bien, procesando response...");
+         this.perfilUsuario = usuario;
+         console.log(this.perfilUsuario);
+         this.creditosCuenta = this.perfilUsuario.cartera;
+ 
+       },
+       error: (error: any) => {
+         console.log(error);
+       }
+     }); 
   }
 
   //LO SIGUIENTE CUMPLE LA FUNCIÓN DE FILTRAR SEGÚN TAGS Y CATEGORIAS
@@ -87,5 +109,9 @@ export class ExplorarRevistasComponent {
           return revista.categoria === this._filteredCategory && revista.tagsString === this._filteredTags;
       })
     }
+  }
+
+  updateParentValue(newValue: number) {
+    this.creditosCuenta = newValue;
   }
 }

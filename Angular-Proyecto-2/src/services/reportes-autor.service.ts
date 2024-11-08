@@ -34,4 +34,8 @@ export class ReportesAutorService {
     + "/" + fechaInicio + "/" + fechaFin);
   }
 
+  public obtenerPagos(nombreUsuario : string): Observable<Revista[]> {
+    return this.httpClient.get<Revista[]>(this.restConstants.getApiURL() + 'reportesAutor/extraerPagos/' + nombreUsuario );
+  }
+
 }

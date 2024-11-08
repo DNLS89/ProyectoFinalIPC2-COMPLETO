@@ -1,0 +1,37 @@
+
+
+
+<br>
+<br>
+<h1>EXPLORAR REVISTAS SIN PRECIO DEFINIDO</h1>
+<br>
+
+<!-- <app-filtrador-revistas [revistasList]="revistasList"></app-filtrador-revistas> -->
+
+
+
+<h2>REVISTAS POR ASIGNAR PRECIO  </h2>
+
+
+
+@for (revista of revistasFiltradasList; track $index) {
+    <div class="card">
+        <div class="card-body">
+            <app-revista-individual [revista]="revista"></app-revista-individual>
+            <br>
+
+            <app-definir-costo-revista [revista]="revista"></app-definir-costo-revista>
+            <!-- <p><label>Costo Revista: </label> <input class="form-control" type="text" name="hobbies" value="" [(ngModel)]="costoRevista"></p>
+            <button (click)="registrarCosto(revista.numeroRevista)" class="btn btn-success" type="submit">Asignar Precio</button> -->
+        </div>
+    </div>
+}
+
+<form>
+    
+   
+
+</form>
+
+
+

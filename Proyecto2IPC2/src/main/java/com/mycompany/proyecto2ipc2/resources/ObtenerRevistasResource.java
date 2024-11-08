@@ -36,6 +36,27 @@ public class ObtenerRevistasResource {
         }
     }
     
+    //OBTENER TODAS TODAS LAS REVISTAS SIN PRECIO ASIGNADO AL EXPLORAR REVISTAS
+    @GET
+    @Path("/sinPrecio/{nombreUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRevistasSinPrecio(@PathParam("nombreUsuario") String nombreUsuario) {
+        
+        MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
+        
+        if (motorPrograma.hayRevistasCreadas2()) {
+            
+            ArrayList<Revista> revistasSinPrecio = motorPrograma.obtenerRevistas2();
+           
+            motorPrograma.closeConnection();
+            return Response.ok(revistasSinPrecio).build();
+
+        } else {
+            motorPrograma.closeConnection();
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+    
     
     //OBTENER REVISTAS PUBLICADAS
     @GET
