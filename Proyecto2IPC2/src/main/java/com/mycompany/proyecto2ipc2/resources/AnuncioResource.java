@@ -115,6 +115,28 @@ public class AnuncioResource {
         
     }
     
+    //PUBLICITAR ANUNCIO
+    @POST
+    @Path("/publicitar/{nombreUsuario}/{nombreAnunciador}/{idAnuncio}/{url}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response publicitarAnuncio(@PathParam("nombreUsuario") String nombreUsuario, @PathParam("nombreAnunciador") String nombreAnunciador
+            , @PathParam("idAnuncio") int idAnuncio, @PathParam("url") String url) {
+        
+        
+        MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
+        motorPrograma.comprar();
+        Tienda tienda = motorPrograma.getTienda();
+        
+        if (tienda.publicitarAnuncio(idAnuncio, nombreAnunciador, url)) {
+            motorPrograma.closeConnection();
+            return Response.ok().build();
+        } else {
+            motorPrograma.closeConnection();
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+        
+    }
+    
     //MODIFICAR ANUNCIO
     @POST
     @Path("/modificar/{nombreUsuario}/{idAnuncio}/{tipoAnuncio}/{vigenciaAnuncio}/{costoAnuncio}/{costoOcultacion}")

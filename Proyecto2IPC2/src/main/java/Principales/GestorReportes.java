@@ -673,6 +673,53 @@ public class GestorReportes {
         return null;
     }
     
+    public ArrayList<Anuncio> extraerAnunciosMostradosReporteAdmin(String nombrePublicador) {
+        String comandoAnuncios = "select * from publicitar;";
+        ArrayList<Anuncio> anuncios = new ArrayList<>();
+        
+        try {
+
+            PreparedStatement comando = connection.prepareStatement(comandoAnuncios);
+            ResultSet resultSet = comando.executeQuery();
+
+
+            while (resultSet.next()) {
+                
+                Anuncio anuncio = new Anuncio();
+                
+                int idAnuncio = resultSet.getInt("id_anuncio");
+                anuncio.setIdAnuncio(idAnuncio);
+                
+                String idAnuncioString = resultSet.getString("id_anuncio");
+                anuncio.setIdAnuncioString(idAnuncioString);
+                
+                Date fechaMostrado = resultSet.getDate("fecha_mostrado");
+                anuncio.setFechaInicio(fechaMostrado);
+                
+                String nombreAnunciador = resultSet.getString("nombre_usuario");
+                anuncio.setNombreUsuario(nombreAnunciador);
+                
+                String url = resultSet.getString("url");
+                anuncio.setUrlAnuncioMostrado(url);
+                
+                
+
+                anuncios.add(anuncio);
+                //String nombreAutor = resultSet.getString("nombre_usuario");
+            }
+            resultSet.close();
+            comando.close();
+
+            return anuncios;
+
+        } catch (SQLException e) {
+            System.out.println("Error al extraer anuncios mostrados");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
     public void compilarReporteComentario(HttpServletRequest request) {
 
         String comando = "select * FROM comentar;";

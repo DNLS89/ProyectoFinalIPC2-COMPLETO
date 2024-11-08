@@ -1,1 +1,52 @@
-<p>reporte-efectividad works!</p>
+<br>
+    <h3>Filtrar Anuncios</h3>
+
+    <form required>
+        <p><label>Filtrar Por Fecha de Aparicion: </label>
+        <p><label>Fecha Inicio: </label>
+        </p>
+        <input [(ngModel)]="_fechaInicio" class="form-control" type="date" name="fechaInicio" required>
+        <p><label>Fecha Final: </label>
+        </p>
+        <input [(ngModel)]="_fechaFin" class="form-control" type="date" name="fechaFin" required>
+        <br>
+        
+        <button class="btn btn-success" type="button" (click)="filtrar()">Filtrar</button>
+    </form>
+
+    <br>
+    <br>
+
+    <h2>Anuncios: </h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <br />
+            <h3>Anuncios según Anunciadores: </h3>
+            <br />
+            @for (anunciador of nombreAnunciadoresUnicoList; track $index) {
+                <h4>Anuncios anunciante "{{anunciador.nombreUsuario}}":</h4>
+                @for (anuncio of anuncioFiltradosList; track $index) {
+
+                    <br>
+                    <p>Anuncio "{{anuncio.idAnuncio}}" en la fecha {{anuncio.fechaInicio | date:'yyyy-MM-dd'}} </p>
+                    
+                       
+                }
+            }
+            <br />
+            <br />
+            <h3>URL en donde fueron mostrados: </h3>
+            @for (revista of anuncioFiltradosList; track $index) {
+                <h4>Anuncio "{{revista.idAnuncio}}"</h4>
+                <p>Mostrado en "{{revista.urlAnuncioMostrado}}"</p>
+            }
+
+           
+
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <button class="btn btn-success" onclick="location.href='report1'"> Generar Reporte </button>

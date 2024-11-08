@@ -9,7 +9,7 @@
     @if (anuncio.tipo == "TEXTO") {
 
         <div *ngIf="hayAnuncioTexto">
-            <span *ngIf="randomMath() < 0.5">
+            <span *ngIf="randomMath(anuncio.idAnuncio, anuncio.nombreUsuario) < 0.5">
                <p>📣 ¡Atención! 🌟</p>
                 <p>Si buscas [un producto/servicio excepcional], ¡estás en el lugar correcto!</p>
                 <p>👀 No te pierdas esta oportunidad única de ser parte de [nuestro servicio/producto].</p>
@@ -23,7 +23,7 @@
     } @else if (anuncio.tipo == "TEXTOeIMAGEN") {
 
         <div *ngIf="hayAnuncioTextoImagen">    
-            <span *ngIf="randomMath() < 0.5">
+            <span *ngIf="randomMath(anuncio.idAnuncio, anuncio.nombreUsuario) < 0.5">
                 <img src="Anuncios/Imagen Anuncio.jpg" alt="this is a image" width="400" />
             </span>
         </div>
@@ -31,7 +31,7 @@
 
     } @else {
         <div *ngIf="hayAnuncioVideo">    
-            <span *ngIf="randomMath() < 0.5">
+            <span *ngIf="randomMath(anuncio.idAnuncio, anuncio.nombreUsuario) < 0.5">
                 <video width="400" onclick="this.controls=0; this.paused || this.ended ? this.play() : this.pause();"> <source src="Anuncios/AnuncioVideo.mp4" type="video/mp4"></video>
             </span>
         </div>

@@ -55,4 +55,9 @@ export class AnunciosService {
     return this.httpClient.post<any>(this.restConstants.getApiURL() + 'anuncio/comprar/' 
     + localStorage.getItem("nombreUsuario") + "/" + idAnuncio + "/" + fechaCompra, {});
   }
+
+  public publicitar(idAnuncio: number, nombreAnunciador: string, url : string): Observable<any> {
+    return this.httpClient.post<any>(this.restConstants.getApiURL() + 'anuncio/publicitar/' 
+    + localStorage.getItem("nombreUsuario") + "/" + nombreAnunciador + "/" + idAnuncio + "/" + url, {});
+  }
 }

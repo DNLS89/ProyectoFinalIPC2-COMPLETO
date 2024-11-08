@@ -102,6 +102,35 @@ public class Tienda {
 
         return false;
     }
+    
+    public boolean publicitarAnuncio(int numeroAnuncio, String nombreAnunciador, String url) {
+        
+        java.sql.Date fechaActual = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        
+        url = url.replace("-", "/");
+        
+        try {
+            PreparedStatement comando = connection.prepareStatement("INSERT INTO publicitar (id_anuncio, nombre_usuario, fecha_mostrado, url) VALUES (?, ?, ?, ?);");
+            comando.setInt(1, numeroAnuncio);
+            comando.setString(2, nombreAnunciador);
+            comando.setDate(3, fechaActual);
+            comando.setString(4, url);
+
+            comando.execute();
+            //ResultSet resultSet = comando.execute();
+
+            //resultSet.close();
+            comando.close();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error pulicitando Anuncio");
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
     public ArrayList<Anuncio> extraerAnuncios() {
 
@@ -182,14 +211,22 @@ public class Tienda {
             ResultSet resultSet = comando.executeQuery();
 
             while (resultSet.next()) {
+                Anuncio anuncio;
+                
                 int idAnuncio = resultSet.getInt("id_anuncio");
                 String tipoAnuncio = resultSet.getString("tipo_anuncio");
                 int estadoAnuncio = resultSet.getInt("estado_anuncio");
                 int vigenciaAnuncio = resultSet.getInt("vigencia_anuncio");
                 int costoAnuncio = resultSet.getInt("costo_anuncio");
                 int costoOcultacion = resultSet.getInt("costo_ocultacion");
+                String nombreAnunciador = resultSet.getString("nombre_usuario");
+                
+                
+                anuncio = new Anuncio(idAnuncio, tipoAnuncio, estadoAnuncio, vigenciaAnuncio, costoAnuncio, costoOcultacion);
+                anuncio.setNombreUsuario(nombreAnunciador);
 
-                anuncios.add(new Anuncio(idAnuncio, tipoAnuncio, estadoAnuncio, vigenciaAnuncio, costoAnuncio, costoOcultacion));
+//                anuncios.add(new Anuncio(idAnuncio, tipoAnuncio, estadoAnuncio, vigenciaAnuncio, costoAnuncio, costoOcultacion));
+                anuncios.add(anuncio);
 
             }
             resultSet.close();

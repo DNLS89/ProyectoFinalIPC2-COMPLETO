@@ -12,6 +12,8 @@ export interface Anuncio {
     idAnuncio: number,
     idAnuncioString: string,
     costoAnuncio: number;
-    costoOcultacion: number
+    costoOcultacion: number,
+    urlAnuncioMostrado: string,
+    fechaAnuncioMostrado: Date,
     
 }

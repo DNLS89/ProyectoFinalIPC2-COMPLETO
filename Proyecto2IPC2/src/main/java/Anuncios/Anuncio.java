@@ -19,6 +19,8 @@ public class Anuncio {
     private BigDecimal costoAnuncioDecimal;
     private int costoOcultacion;
     private String usuarioQueComproAnuncio;
+    private String urlAnuncioMostrado;
+    private java.sql.Date fechaAnuncioMostrado;
 
     public Anuncio() {
     }
@@ -59,6 +61,24 @@ public class Anuncio {
         }
         
     }
+
+    public String getUrlAnuncioMostrado() {
+        return urlAnuncioMostrado;
+    }
+
+    public void setUrlAnuncioMostrado(String urlAnuncioMostrado) {
+        this.urlAnuncioMostrado = urlAnuncioMostrado;
+    }
+
+    public Date getFechaAnuncioMostrado() {
+        return fechaAnuncioMostrado;
+    }
+
+    public void setFechaAnuncioMostrado(Date fechaAnuncioMostrado) {
+        this.fechaAnuncioMostrado = fechaAnuncioMostrado;
+    }
+    
+    
 
     public int getVigenciaInt() {
         return vigenciaInt;

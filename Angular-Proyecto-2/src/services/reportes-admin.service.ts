@@ -39,6 +39,10 @@ export class ReportesAdminService {
     return this.httpClient.get<Anuncio[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerAnuncios/' + nombreUsuario );
   }
 
+  public obtenerAnunciosMostrados(nombreUsuario : string): Observable<Anuncio[]> {
+    return this.httpClient.get<Anuncio[]>(this.restConstants.getApiURL() + 'reportesAdmin/extraerAnunciosMostrados/' + nombreUsuario );
+  }
+
 
 
 }

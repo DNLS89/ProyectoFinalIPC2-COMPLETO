@@ -151,4 +151,30 @@ public class ReporteAdminResource {
         
     }
     
+    //OBTENER ANUNCIOS MOSTRADOS
+    @GET
+    @Path("/extraerAnunciosMostrados/{nombreUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerAnunciosMostrados(@PathParam("nombreUsuario") String nombreUsuario) {
+        
+        System.out.println("EXTRAYENDO ANUNCIOS MOSTRADOS");
+        MotorPrograma motorPrograma = new MotorPrograma(nombreUsuario);
+        GestorReportes gestorReportes = motorPrograma.getGestorReportes();
+        
+        
+        ArrayList<Anuncio> anuncios = gestorReportes.extraerAnunciosMostradosReporteAdmin(nombreUsuario);
+        
+        if (anuncios != null) {
+            //System.out.println("Hay revistas");
+            motorPrograma.closeConnection();
+            return Response.ok(anuncios).build();
+        }
+        
+        motorPrograma.closeConnection();
+        return Response.status(Response.Status.NOT_FOUND).build();
+        
+    }
+    
+    
+    
 }
