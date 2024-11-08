@@ -120,7 +120,7 @@ export class ReporteEfectividadComponent {
       } else {
         console.log("PRUEBA 4")
         //Filtra en BASE A FECHAS Y NUMERO DE REVISTA
-        return this.anunciosList.filter((revista) =>
+        return this.anunciosList.filter((anuncio) =>
         {
           //Cuando no cumple con ningún elemento
           return this.anunciosList;

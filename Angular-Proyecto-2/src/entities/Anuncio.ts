@@ -12,6 +12,7 @@ export interface Anuncio {
     idAnuncio: number,
     idAnuncioString: string,
     costoAnuncio: number;
+    costoAnuncioDecimal: number;
     costoOcultacion: number,
     urlAnuncioMostrado: string,
     fechaAnuncioMostrado: Date,

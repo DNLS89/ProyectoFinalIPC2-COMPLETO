@@ -2,6 +2,7 @@ package Principales;
 
 import Anuncios.Anuncio;
 import jakarta.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -652,6 +653,9 @@ public class GestorReportes {
                 
                 String idAnuncioString = resultSet.getString("id_anuncio");
                 anuncio.setIdAnuncioString(idAnuncioString);
+                
+                BigDecimal costoAnuncio = resultSet.getBigDecimal("costo_anuncio");
+                anuncio.setCostoAnuncioDecimal(costoAnuncio);
 
                 
                 Date fechaProceso = resultSet.getDate("fecha_creacion");

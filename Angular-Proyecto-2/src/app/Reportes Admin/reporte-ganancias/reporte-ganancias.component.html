@@ -1,1 +1,67 @@
-<p>reporte-ganancias works!</p>
+<br>
+    <h3>Filtrar Anunciante</h3>
+
+    <form required>
+        <p><label>Filtrar Por Fecha de Compra: </label>
+        <p><label>Fecha Inicio: </label>
+        </p>
+        <input [(ngModel)]="_fechaInicio" class="form-control" type="date" name="fechaInicio" required>
+        <p><label>Fecha Final: </label>
+        </p>
+        <input [(ngModel)]="_fechaFin" class="form-control" type="date" name="fechaFin" required>
+        <br>
+        <p><label>Tipo de Anuncio: </label>
+            <select #tipos (change)="onSelectedType(tipos.value)" class="form-control" name="tipoAnuncio">
+                <option value="">--</option>
+                <option value="TEXTO">Texto</option>
+                <option value="TEXTOeIMAGEN">Texto e Imagen</option>
+                <option value="VIDEO">Video</option>
+            </select>
+        </p>
+        <p><label>Vigencia del Anuncio: </label>
+            <select #vigencias (change)="onSelectedVigencia(vigencias.value)" class="form-control" name="vigenciaAnuncio">
+                <option value="">--</option>
+                <option value="1">1 día</option>
+                <option value="3">3 días</option>
+                <option value="7">1 semana</option>
+                <option value="14">2 semanas</option>
+            </select>
+        </p>
+        <!-- <p><label>Filtrar por revista: </label>
+            <select class="form-control" #numeroRevista (change)="onSelectedNumeroRevista(numeroRevista.value)">
+                <option value="">--</option>
+                
+                <option *ngFor="let item of valorUnicoList; let i = index" [value]="item.idAnuncio">
+                    <span> {{item.idAnuncio}}</span>
+                </option>
+                                
+            </select>
+        </p> -->
+        <button class="btn btn-success" type="button" (click)="filtrar()">Filtrar</button>
+    </form>
+
+    <br>
+    <br>
+
+    <h2>Anuncios: </h2>
+    
+    <div class="card">
+        <div class="card-body">
+
+            @for (anuncio of anuncioFiltradosList; track $index) {
+
+                <br>
+                <h4>Anuncio: {{anuncio.idAnuncio}}</h4>
+                <p>Fecha: {{anuncio.fechaInicio | date:'yyyy-MM-dd' }}</p>
+                <p>Usuario que compró el anuncio: {{anuncio.usuarioQueComproAnuncio}}</p>
+                <p>Tipo: {{anuncio.tipo}}</p>
+                <p>Vigencia: {{anuncio.vigenciaString}} días</p>
+                   
+            }
+
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <button class="btn btn-success" onclick="location.href='report1'"> Generar Reporte </button>

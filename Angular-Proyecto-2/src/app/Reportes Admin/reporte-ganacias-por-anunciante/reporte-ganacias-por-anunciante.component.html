@@ -1,1 +1,47 @@
-<p>reporte-ganacias-por-anunciante works!</p>
+<br>
+    <h3>Filtrar Anunciante</h3>
+
+    <form required>
+        <p><label>Filtrar Por Anunciante: </label>
+        
+        <p><label>Tipo de Anuncio: </label>
+            <select class="form-control" #numeroRevista (change)="onSelectedNombre(numeroRevista.value)">
+                <option value="">--</option>
+                
+                <option *ngFor="let item of nombreAnunciadoresUnicoList; let i = index" [value]="item.usuarioQueComproAnuncio">
+                    <span> {{item.usuarioQueComproAnuncio}}</span>
+                </option>
+                                
+            </select>
+        </p>
+        
+        <button class="btn btn-success" type="button" (click)="filtrar()">Filtrar</button>
+    </form>
+
+    <br>
+    <br>
+
+    <h2>Anuncios Comprados: </h2>
+    
+    <div class="card">
+        <div class="card-body">
+
+            @for (anunciador of anuncioFiltradosList; track $index) {
+                <br>
+                <h4>Anunciador "{{anunciador.usuarioQueComproAnuncio}}":</h4>
+
+                @for (anuncio of anunciosList; track $index) {
+                    @if (anunciador.usuarioQueComproAnuncio === anuncio.usuarioQueComproAnuncio) {
+                        <p>Adquirió el Anuncio "{{anuncio.idAnuncio}}" con un costo de {{anuncio.costoAnuncioDecimal}} </p>
+                    }          
+                }
+            }
+
+           
+
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <button class="btn btn-success" onclick="location.href='report1'"> Generar Reporte </button>
