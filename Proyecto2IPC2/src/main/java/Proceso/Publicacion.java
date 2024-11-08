@@ -4,47 +4,58 @@ import Principales.CategoriaRevista;
 import Principales.Revista;
 import Usuarios.Usuario;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Publicacion extends Proceso{
-    
+public class Publicacion extends Proceso {
 
     public Publicacion(Usuario usuario, Connection connection) {
         super(usuario, connection);
     }
-    
+
     public void publicar(String archivoRevista, String descripcion, String categoria, String tags) {
-        
+
         registrarRevista(archivoRevista, descripcion, categoria, tags);
         registrarPublicacionSQL();
-        
+
     }
-    
-    
+
     public void registrarRevista(String archivoRevista, String descripcion, String categoria, String tags) {
-        
+
         revista = new Revista(usuario.getNombreUsuario(), archivoRevista, descripcion, categoria, tags);
         //Crear SQL que registre a la revista, luego en publicar
         registrarRevistaSQL();
         obtenerIdSQLRevista();
     }
-    
+
     public void registrarRevistaSQL() {
-        String comandoCrearUsuario = "INSERT INTO revista (descripcion, categoria, etiquetas) "
-                + "VALUES ('" + revista.getDescripcion() + "', '" + revista.getCategoria() + "', '" + revista.getTagsString() + "');";
-        
+//        String comandoCrearUsuario = "INSERT INTO revista (descripcion, categoria, etiquetas) "
+//                + "VALUES ('" + revista.getDescripcion() + "', '" + revista.getCategoria() + "', '" + revista.getTagsString() + "');";
+
+        String comandoCrearUsuario2 = "INSERT INTO revista (descripcion, categoria, etiquetas) "
+                + "VALUES (?, ?, ?);";
+
         try {
-            Statement statementInsert = connection.createStatement();
-            statementInsert = connection.createStatement();
-            statementInsert.executeUpdate(comandoCrearUsuario);
+
+            PreparedStatement comando = connection.prepareStatement(comandoCrearUsuario2);
+            comando.setString(1, revista.getDescripcion());
+            comando.setString(2, revista.getCategoria());
+            comando.setString(3, revista.getTagsString());
+
+            comando.execute();
+            comando.close();
+
+//            Statement statementInsert = connection.createStatement();
+//            statementInsert = connection.createStatement();
+//            statementInsert.executeUpdate(comandoCrearUsuario);
         } catch (SQLException e) {
             System.out.println("Error ingresando revista a SQLS");
             e.printStackTrace();
         }
-    } 
-    
+    }
+
     public void obtenerIdSQLRevista() {
         String comandoNumeroRevista = "select max(numero_revista) from revista;";
 
@@ -61,12 +72,19 @@ public class Publicacion extends Proceso{
             e.printStackTrace();
         }
     }
-    
+
     public void registrarPublicacionSQL() {
+//        String comandoPublicar = "INSERT INTO publicar (nombre_usuario, numero_revista, fecha_creacion) "
+//                + "VALUES ('" + usuario.getNombreUsuario() + "', '" + revista.getNumeroRevista() + "', '" + fechaProceso + "');";
         String comandoPublicar = "INSERT INTO publicar (nombre_usuario, numero_revista, fecha_creacion) "
-                + "VALUES ('" + usuario.getNombreUsuario() + "', '" + revista.getNumeroRevista() + "', '" + fechaProceso + "');";
-        
+                + "VALUES (?, ?, ?);";
+
         try {
+            PreparedStatement comando = connection.prepareStatement(comandoPublicar);
+            comando.setString(1, usuario.getNombreUsuario());
+            comando.setInt(2, revista.getNumeroRevista());
+            comando.setDate(3, fechaProceso);
+
             Statement statementInsert = connection.createStatement();
             statementInsert = connection.createStatement();
             statementInsert.executeUpdate(comandoPublicar);

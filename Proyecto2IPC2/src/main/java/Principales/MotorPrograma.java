@@ -618,10 +618,17 @@ public class MotorPrograma {
                 continue;
             }
             
-            String comandoNombre = "select * from suscribir WHERE nombre_usuario LIKE \"" + usuario.getNombreUsuario() + "\" AND numero_revista =" + revista.getNumeroRevista() + ";";
+//            String comandoNombre = "select * from suscribir WHERE nombre_usuario LIKE \"" + usuario.getNombreUsuario() + "\" AND numero_revista =" + revista.getNumeroRevista() + ";";
+            String comandoNombre = "select * from suscribir WHERE nombre_usuario LIKE ? AND numero_revista =?;";
             try {
-                Statement statementInsert = connection.createStatement();
-                ResultSet resultSet = statementInsert.executeQuery(comandoNombre);
+                
+                PreparedStatement comando = connection.prepareStatement(comandoNombre);
+                comando.setString(1, usuario.getNombreUsuario());
+                comando.setInt(2, revista.getNumeroRevista());
+                ResultSet resultSet = comando.executeQuery();
+                
+//                Statement statementInsert = connection.createStatement();
+//                ResultSet resultSet = statementInsert.executeQuery(comandoNombre);
 
                 if (resultSet.next()) {
                     revista.setUsuarioSuscrito(true);
@@ -630,7 +637,8 @@ public class MotorPrograma {
                     revista.setUsuarioSuscrito(false);
                 }
                 resultSet.close();
-                statementInsert.close();
+                comando.close();
+//                statementInsert.close();
             } catch (SQLException e) {
                 System.out.println("Error comprobar el estado de suscripcion a las revistas");
                 e.printStackTrace();
@@ -643,12 +651,19 @@ public class MotorPrograma {
 
         revistasSuscritas = new Revista[obtenerTotalRevistasCreadas(comando)];
 
+//        String comandoNombre = "select * from revista LEFT JOIN suscribir ON revista.numero_revista = suscribir.numero_revista "
+//                + "WHERE nombre_usuario LIKE \"" + usuario.getNombreUsuario() + "\";";
         String comandoNombre = "select * from revista LEFT JOIN suscribir ON revista.numero_revista = suscribir.numero_revista "
-                + "WHERE nombre_usuario LIKE \"" + usuario.getNombreUsuario() + "\";";
+                + "WHERE nombre_usuario LIKE ?;";
 
         try {
-            Statement statementInsert = connection.createStatement();
-            ResultSet resultSet = statementInsert.executeQuery(comandoNombre);
+            
+            PreparedStatement comando1 = connection.prepareStatement(comandoNombre);
+                comando1.setString(1, usuario.getNombreUsuario());
+                ResultSet resultSet = comando1.executeQuery();
+            
+//            Statement statementInsert = connection.createStatement();
+//            ResultSet resultSet = statementInsert.executeQuery(comandoNombre);
 
             int contador = 0;
 
@@ -688,7 +703,8 @@ public class MotorPrograma {
             }
 
             resultSet.close();
-            statementInsert.close();
+            comando1.close();
+//            statementInsert.close();
 
         } catch (SQLException e) {
             System.out.println("Error al extraer las revistas");
@@ -704,11 +720,18 @@ public class MotorPrograma {
     private void obtenerEstadoMeGusta() {
 
         for (Revista revista : revistasSuscritas) {
-            String comandoNombre = "select * from megusta WHERE nombre_usuario LIKE \"" + usuario.getNombreUsuario() + "\" AND numero_revista =" + revista.getNumeroRevista() + ";";
-
+//            String comandoNombre = "select * from megusta WHERE nombre_usuario LIKE \"" + usuario.getNombreUsuario() + "\" AND numero_revista =" + revista.getNumeroRevista() + ";";
+            String comandoNombre1 = "select * from megusta WHERE nombre_usuario LIKE ? AND numero_revista =?;";
             try {
-                Statement statementInsert = connection.createStatement();
-                ResultSet resultSet = statementInsert.executeQuery(comandoNombre);
+                
+                PreparedStatement comando = connection.prepareStatement(comandoNombre1);
+                comando.setString(1, usuario.getNombreUsuario());
+                comando.setInt(2, revista.getNumeroRevista());
+                ResultSet resultSet = comando.executeQuery();
+                
+                
+//                Statement statementInsert = connection.createStatement();
+//                ResultSet resultSet = statementInsert.executeQuery(comandoNombre);
 
                 if (resultSet.next()) {
                     revista.setUsuarioYaMeGusta(true);
@@ -718,7 +741,8 @@ public class MotorPrograma {
                 }
 
                 resultSet.close();
-                statementInsert.close();
+                comando.close();
+//                statementInsert.close();
             } catch (SQLException e) {
                 System.out.println("Error comprobar el estado de suscripcion a las revistas");
                 e.printStackTrace();
